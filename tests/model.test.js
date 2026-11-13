@@ -40,3 +40,21 @@ test('CSV includes the whole filtered result, BOM and quoted cells', () => {
   assert.ok(toCsv(selectFlats(snapshot.flats, { estate: '樂嶺軒' })).includes('使用者提供PDF'));
   assert.ok(toCsv([{ ...rows[0], unit: 'a"b' }]).includes('"a""b"'));
 });
+
+test('simulation filters exclude missing data, preserve zero, and sort missing last', () => {
+  const extra = JSON.parse(readFileSync(new URL('../docs/data/lightview.json', import.meta.url), 'utf8'));
+  const merged = snapshot.flats.map(f => ({ ...f, lightview: extra.flats[f.id] }));
+  assert.equal(selectFlats(merged, { minWinterSun: '0' }).length, Object.keys(extra.flats).length);
+  const rows = selectFlats(merged, { estate: '啟陽苑', status: 'available', facing: 'NE', minWinterSun: '1', minSky: '10', minWater: '0' });
+  assert.ok(rows.length > 0);
+  assert.ok(rows.every(f => f.status === 'available' && f.lightview.living.facing === 'NE' && f.lightview.sun.winter.hours >= 1 && f.lightview.view.skyPct >= 10));
+  for (const sort of ['winterSun-asc', 'winterSun-desc', 'sky-desc', 'water-desc']) {
+    const sorted = selectFlats(merged, { sort });
+    assert.ok(sorted[0].lightview);
+    assert.ok(!sorted.at(-1).lightview);
+  }
+  const zero = merged.find(f => f.lightview?.sun.winter.hours === 0);
+  assert.ok(zero);
+  assert.equal(toCsv([zero]).split('\r\n')[1].split(',')[14], '"0"');
+  assert.equal(selectFlats(merged).length, 4443);
+});

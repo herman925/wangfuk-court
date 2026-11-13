@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261113-status">
-  <script type="module" src="./app.js?v=20261113-status"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261113-lightview">
+  <script type="module" src="./app.js?v=20261113-lightview"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -31,6 +31,7 @@
         <fieldset><legend>實用面積 <span>平方呎</span></legend><div class="range"><input id="minArea" type="number" min="0" step="1" placeholder="最低" aria-label="最低實用面積（平方呎）"><span>至</span><input id="maxArea" type="number" min="0" step="1" placeholder="最高" aria-label="最高實用面積（平方呎）"></div></fieldset>
         <label for="maxPrice">最高售價 <span>萬港元</span></label><input id="maxPrice" type="number" min="0" step="1" placeholder="例如 350">
         <fieldset><legend>樓層</legend><div class="range"><input id="minFloor" type="number" min="1" step="1" placeholder="最低" aria-label="最低樓層"><span>至</span><input id="maxFloor" type="number" min="1" step="1" placeholder="最高" aria-label="最高樓層"></div></fieldset>
+        <details class="analysis-filters"><summary>日照及景觀篩選</summary><fieldset id="lightview-filters"><legend class="sr-only">Lightview模擬條件</legend><label for="facing">客廳坐向</label><select id="facing"><option value="">全部坐向</option></select><label for="minWinterSun">冬至直射日照最少 <span>小時</span></label><input id="minWinterSun" type="number" min="0" max="24" step="0.5" placeholder="不限"><label for="minSky">開揚天空比例最少 <span>%</span></label><input id="minSky" type="number" min="0" max="100" step="1" placeholder="不限"><label for="minWater">水面景觀比例最少 <span>%</span></label><input id="minWater" type="number" min="0" max="100" step="1" placeholder="不限"><p class="filter-tip">Lightview模擬，非實景。設定條件後，只顯示有可配對分析的單位；缺資料不代表零日照或零景觀。</p></fieldset></details>
         <p class="filter-tip">可以同時設定多個條件，逐步縮窄選擇。</p>
         </div>
         <div class="drawer-footer"><button id="apply-filters" type="button">顯示篩選結果</button></div>
@@ -40,15 +41,17 @@
         <div class="section-heading result-heading"><div><h2 id="results-heading">全部屋苑</h2><p id="result-count" role="status" aria-live="polite">正在載入單位資料…</p></div><button id="download" class="outline-button" type="button" disabled>匯出篩選結果 ↓</button></div>
         <div class="summary-strip"><div><span>符合條件單位</span><strong id="stat-count">—</strong></div><div><span>價單售價範圍 · 萬港元</span><strong id="stat-price">—</strong></div><div><span>實用面積 · 平方呎</span><strong id="stat-area">—</strong></div></div>
         <div id="status-counts" class="status-counts" aria-label="揀選狀態統計"></div>
+        <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
         <p id="verification-note" class="notice"></p>
-        <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="estate-asc">屋苑名稱</option></select></label></div>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table role="table"><caption class="sr-only">符合篩選條件的特設計劃供選單位</caption><thead role="rowgroup"><tr role="row"><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">價單售價（港元）</th><th scope="col">揀選狀態</th></tr></thead><tbody id="flat-rows" role="rowgroup"></tbody></table></div>
+        <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="winterSun-desc">冬至日照：由多至少</option><option value="sky-desc">天空比例：由高至低</option><option value="water-desc">水面比例：由高至低</option><option value="estate-asc">屋苑名稱</option></select></label></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table role="table"><caption class="sr-only">符合篩選條件的特設計劃供選單位</caption><thead role="rowgroup"><tr role="row"><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">價單售價（港元）</th><th scope="col">揀選狀態</th><th scope="col">日照及景觀模擬</th></tr></thead><tbody id="flat-rows" role="rowgroup"></tbody></table></div>
         <div id="empty" class="empty" hidden><strong>暫時沒有符合條件的單位</strong><p>試試提高預算、放寬面積或樓層，或按「重設」重新選擇。</p><button id="empty-reset" class="outline-button" type="button">重設篩選</button></div>
         <div class="pagination"><span id="page-info"></span><div><button id="previous" class="outline-button" type="button" disabled>← 上一頁</button><button id="next" class="outline-button" type="button" disabled>下一頁 →</button></div></div>
       </section>
     </div>
     <section id="sources" class="sources"><h2>把遠方的想望，安放在有據的選擇裡。</h2><p>這是一個民間整理的選樓參考工具，只列宏福苑特設計劃的供選範圍。售價採用官方價單，未加印花稅及交易費用；實際供應以售樓處確認為準。</p><details><summary>查看來源及核對說明</summary><div id="source-list"></div><p>其他九個項目以官方「未售／已選／已售」表逐伙核對；已選及已售統一顯示為紅色「已揀選」。樂嶺軒按使用者提供的已選PDF判定，並在表內標示來源。官方成交冊僅用作輔助核對，不用作推算未揀選單位。</p><p id="snapshot-note"></p><a href="https://github.com/herman925/wangfuk-court/blob/main/AGENTS.md">資料更新方法 ↗</a></details></section>
   </main>
+  <section class="lightview-credit"><p>日照及景觀分析來源：<a href="https://lightview.app/" target="_blank" rel="noopener noreferrer">光景 Lightview · JOL Studio Limited ↗</a>。涵蓋部分啟陽苑、裕豐苑及灝然單位；模擬數據與揀選狀態分開管理。<a href="https://github.com/herman925/wangfuk-court/blob/main/research/lightview-investigation.md">分析方法及涵蓋限制 ↗</a></p></section>
   <footer><span>宏福苑選樓參考</span><span>願一桌飯香，續寫日常的溫柔。</span></footer>
   <button id="open-filters" class="open-filters" type="button" aria-haspopup="dialog" aria-controls="filter-drawer" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>篩選條件</span><span id="mobile-count">—</span></button>
   <noscript><p class="error">此工具需要 JavaScript。你亦可到 GitHub 下載資料快照作離線比較。</p></noscript>

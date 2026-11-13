@@ -143,6 +143,32 @@ git diff --stat
 
 只清理本專案已確認的 `.cache`、測試截圖及程序產生的暫存檔。不要遞迴刪除父工作區、原始下載、信件及研究資料。刪除重複原始PDF前，先以SHA-256確認有另一份完整存檔。
 
+## Lightview 日照及景觀增補
+
+使用者於2026-11-13表示已取得授權並指示擷取及接入；此為本次操作依據，不代表第三方資料獲開放授權。保留「光景 Lightview · JOL Studio Limited」來源鳴謝及模擬限制，不更動官方供選範圍、售價或狀態。研究方法、REA靜態證據與實際瀏覽觀察見 [research/lightview-investigation.md](research/lightview-investigation.md)。
+
+來源為以下三個公開項目頁，HTML的Next.js RSC資料含 `bundle.project`、`bundle.metrics`、`bundle.panos`；以JSON解碼，**不執行下載的JavaScript**。不是取得私人後端資料庫，也不是穩定的公開API。
+
+- https://lightview.app/kai-yeung-court
+- https://lightview.app/yu-fung-court
+- https://lightview.app/hemma-sapphire
+
+先啟用Python虛擬環境，再執行：
+
+```powershell
+python tools/import_lightview.py
+# 重播已取得的三份 {slug}.html：
+python tools/import_lightview.py --source-dir .cache/lightview
+```
+
+完整項目資料包存在 `.cache/lightview/*-bundle.json`，不提交。僅將與 `data/inventory.json` 身份相同且面積差不超過0.15平方米的供選單位增補至 `docs/data/lightview.json`；`data/lightview/provenance.json`保存來源HTML雜湊、匹配數及未配對原因。匹配以屋苑／座／樓層／室號為準，灝然1A對應T1A。不可從相鄰樓層推算或把缺值填零。
+
+本次啟陽苑746/750、裕豐苑106/140、灝然559/596，共1,411伙；其餘75伙包括54伙缺少模型記錄及21伙面積不符，全部保留官方單位資料。其餘七個項目沒有本次Lightview增補。檢查schema、三季時數及早午後總和、景觀比例合計、全景路徑後才替換增補檔；任一解析錯誤應停止，保留前次快照。
+
+日照為晴天模型，景觀為窗外120度模擬，未計天氣，不能稱實景或現時供應。城市模型及圖則日期須保留；未來建築物情境若來源有提供則保留原欄位，頁面目前展示基準情境，連結原站查看3D／全景。未下載全景圖片及政府3D圖磚，不複製未獲取的渲染引擎。
+
+`model.js`負責坐向、最少冬至日照／天空／水面比例篩選及排序、CSV增補；缺值排序放最後，設定分析篩選（包括0）排除無資料單位。增補載入失敗時，官方單位清單仍可操作。驗證沿用上方Python及Node命令，另檢查手機抽屜、分析詳情及原站對應單位連結。
+
 ## Design Context
 
 使用者為居民及家人，已指定清晰實用、繁中、淺色、大字易讀。保留緊湊比較表與手機完整篩選功能，日期及核實狀態要顯眼。設計原則見 `.impeccable.md`。

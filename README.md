@@ -7,6 +7,7 @@
 - 只列特設計劃供選範圍；可選屋苑、座數、已揀選／未揀選狀態，再按面積、最高售價、樓層篩選。
 - 按售價、面積、樓層排序；搜尋單位；匯出全部篩選結果 CSV。
 - 明示資料日期及核實狀態，並附官方來源。
+- 啟陽苑、裕豐苑及灝然共1,411伙另有Lightview坐向、三季日照及景觀模擬；支援篩選、排序、CSV及原站對應單位3D／全景連結。缺少或面積不符的資料不套用，亦不改動供選範圍或揀選狀態。
 
 目前快照：**2026-11-12，只含特設計劃供選4,443伙：3,125伙未揀選、1,318伙已揀選**。不包括各屋苑在其他銷售安排下的單位。其他九個項目採用官方未售／已選／已售表；樂嶺軒依使用者指定，採用其提供的已選PDF（300伙內272伙已選，28伙未選），表內明示來源。紅色已揀選包含官方已選及已售；綠色為未揀選。
 
@@ -35,6 +36,8 @@ npm run check
 
 更新程式不會自動 commit 或 push；先核對資料差異，再提交。網站由 `main` 分支的 `/docs` 發布到 GitHub Pages。
 
+Lightview增補獨立更新：啟用相同虛擬環境後執行 `python tools/import_lightview.py`。原始完整項目包只存本機`.cache/lightview`；公開檔僅包含已配對的供選單位。來源、使用者授權說明及重播方法見 [AGENTS.md](AGENTS.md#lightview-日照及景觀增補)，功能及資料管線研究見 [Lightview調查](research/lightview-investigation.md)。模擬並非實景、天氣預報或官方資料。
+
 ## 檔案
 
 | 路徑 | 用途 |
@@ -45,6 +48,10 @@ npm run check
 | `data/sierra-selections.json` | 從使用者PDF抽取的樂嶺軒已選ID、日期、檔名及SHA-256 |
 | `data/provenance.json` | 本次實際採用來源的日期、剩餘數及 SHA-256 |
 | `tools/update_snapshot.py` | 下載、解析、核對及輸出快照 |
+| `tools/import_lightview.py` | 擷取公開項目包，按身份及面積配對供選單位 |
+| `docs/data/lightview.json` | 1,411伙日照、景觀、坐向、幾何及全景索引增補 |
+| `data/lightview/provenance.json` | Lightview來源雜湊、涵蓋數及排除原因 |
+| `research/lightview-investigation.md` | 功能、資料結構、靜態／瀏覽證據及未確認部分 |
 | `tests/` | 篩選、排序、CSV、官方PDF解析及資料一致性檢查 |
 
 只公開屋苑及單位資料，不收集使用者資料；原研究專案的信件、個人設定、PDF彙編及 Git 歷史不在此倉庫內。

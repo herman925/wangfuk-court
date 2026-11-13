@@ -1,0 +1,327 @@
+{
+  "sources": [
+    {
+      "estate": "啟陽苑",
+      "url": "https://lightview.app/kai-yeung-court",
+      "htmlSha256": "86794b5282e1091c8feb9b5012f91c4f951361fe9cc16271fb15f42b4af7995e",
+      "matched": 746,
+      "specialCount": 750
+    },
+    {
+      "estate": "裕豐苑",
+      "url": "https://lightview.app/yu-fung-court",
+      "htmlSha256": "053c4fb73f99b1e359ba23b65c2ed6f30509d3db54ff8c5065a67a2c03af2df6",
+      "matched": 106,
+      "specialCount": 140
+    },
+    {
+      "estate": "灝然",
+      "url": "https://lightview.app/hemma-sapphire",
+      "htmlSha256": "8675d23a796b9c42094f86d892186ca6909858199a6c6d46752a916a0e42a50c",
+      "matched": 559,
+      "specialCount": 596
+    }
+  ],
+  "unmatched": [
+    {
+      "id": "啟陽苑-B-1-2",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "啟陽苑-B-1-4",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "啟陽苑-B-1-20",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "啟陽苑-B-1-23",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-A-13-11",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-36-12",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-24-12",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-27-13",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-31-14",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-20-14",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-B-25-15",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-37-1",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-2-2",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-30-3",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-35-4",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-37-5",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-33-8",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-31-10",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-38-11",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-30-12",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-29-13",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-35-14",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-38-15",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-25-15",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-12-15",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-32-16",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "裕豐苑-C-19-16",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-27-17",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-14-17",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-27-18",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-C-15-18",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-28-6",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-18-6",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-24-7",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-21-8",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-20-9",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-18-10",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "裕豐苑-D-24-12",
+      "reason": "Lightview面積與官方價單不符"
+    },
+    {
+      "id": "灝然-1A-21-A",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-B",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-C",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-D",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-E",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-F",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-H",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-J",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1A-21-K",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-A",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-B",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-C",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-D",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-E",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-F",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-G",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-H",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-1B-21-J",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-A",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-B",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-C",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-D",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-E",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3A-15-G",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-A",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-B",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-C",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-D",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-E",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-F",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-G",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-3B-15-H",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-4B-1-C",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-4B-1-D",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-4B-1-F",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-4B-1-G",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    },
+    {
+      "id": "灝然-4B-1-H",
+      "reason": "Lightview未涵蓋此單位或樓層"
+    }
+  ]
+}
