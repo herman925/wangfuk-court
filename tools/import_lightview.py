@@ -12,6 +12,19 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECTS = {'啟陽苑': 'kai-yeung-court', '裕豐苑': 'yu-fung-court', '灝然': 'hemma-sapphire'}
 
 
+def validate_refresh(output: dict, previous: dict | None) -> None:
+    if not output['flats'] or any(project['matched'] == 0 for project in output['projects'].values()):
+        raise ValueError('Empty Lightview coverage; inspect changed source format')
+    if previous and not set(previous['flats']) <= set(output['flats']):
+        raise ValueError('Lightview coverage decreased; review removed or changed flat models')
+    for slug, project in output['projects'].items():
+        for name, value in project['dataDate'].items():
+            datetime.strptime(value, '%Y-%m-%d')
+            old = previous.get('projects', {}).get(slug, {}).get('dataDate', {}).get(name) if previous else None
+            if old and value < old:
+                raise ValueError(f'Refusing older Lightview {slug} {name}')
+
+
 def extract_bundle(html: str, slug: str) -> dict:
     """Decode Next.js streamed JSON without executing downloaded JavaScript."""
     stream = ''
@@ -94,6 +107,10 @@ def run(source_dir: Path | None) -> None:
         print(f'{estate}: {matched}/{len(project_rows)} special-exercise flats matched')
     assert set(output['flats']) <= {f['id'] for f in inventory}
     target = ROOT / 'docs/data/lightview.json'
+    previous = json.loads(target.read_text(encoding='utf-8')) if target.exists() else None
+    validate_refresh(output, previous)
+    if previous and {k: v for k, v in output.items() if k != 'capturedAt'} == {k: v for k, v in previous.items() if k != 'capturedAt'}:
+        output['capturedAt'] = previous['capturedAt']
     temporary = target.with_suffix('.tmp')
     temporary.write_text(json.dumps(output, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
     temporary.replace(target)

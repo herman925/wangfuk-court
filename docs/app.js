@@ -1,4 +1,4 @@
-import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-lightview';
+import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-auto';
 
 const $ = id => document.getElementById(id);
 const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'facing', 'minWinterSun', 'minSky', 'minWater', 'query', 'sort'];
@@ -62,6 +62,22 @@ function reset() {
   updateBlocks(); page = 1; render();
 }
 
+async function showRefreshStatus() {
+  try {
+    const response = await fetch('./data/update-status.json', { cache: 'no-cache' });
+    if (!response.ok) return;
+    const status = await response.json();
+    const labels = { selection: '官方揀選狀態', lightview: 'Lightview', sierra: '樂嶺軒公告' };
+    const time = date => date ? new Date(date).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', hour12: false }) : '未有成功記錄';
+    $('refresh-note').textContent = `每日香港時間12:23、18:23及21:23自動檢查。${Object.entries(labels).map(([key, label]) => {
+      const result = status[key];
+      return result ? `${label}：${result.outcome === 'success' ? `已檢查 ${time(result.lastSuccessAt)}` : `本次失敗，保留上次資料（最後成功 ${time(result.lastSuccessAt)}）`}` : `${label}：未有記錄`;
+    }).join('；')}。來源未發布新資料時，表內資料日期不會改動；樂嶺軒公告只作監察。`;
+  } catch (error) {
+    console.warn('自動檢查記錄暫未能載入。', error);
+  }
+}
+
 async function init() {
   try {
     const response = await fetch('./data/snapshot.json', { cache: 'no-cache' });
@@ -98,6 +114,7 @@ async function init() {
       const a = document.createElement('a'); a.href = url; a.download = `宏福苑選樓_${$('estate').value || '全部屋苑'}_${snapshot.asOf}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     });
     render();
+    showRefreshStatus();
   } catch (error) {
     $('error').hidden = false;
     $('error').textContent = '未能載入單位資料，請重新整理網頁，或到 GitHub 查看資料快照。';

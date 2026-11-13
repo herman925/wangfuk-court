@@ -45,16 +45,18 @@ test('simulation filters exclude missing data, preserve zero, and sort missing l
   const extra = JSON.parse(readFileSync(new URL('../docs/data/lightview.json', import.meta.url), 'utf8'));
   const merged = snapshot.flats.map(f => ({ ...f, lightview: extra.flats[f.id] }));
   assert.equal(selectFlats(merged, { minWinterSun: '0' }).length, Object.keys(extra.flats).length);
-  const rows = selectFlats(merged, { estate: '啟陽苑', status: 'available', facing: 'NE', minWinterSun: '1', minSky: '10', minWater: '0' });
+  const choice = merged.find(f => f.lightview);
+  const facing = choice.lightview.living.facing;
+  const hours = choice.lightview.sun.winter.hours, sky = choice.lightview.view.skyPct;
+  const rows = selectFlats(merged, { estate: choice.estate, status: choice.status, facing, minWinterSun: String(hours), minSky: String(sky), minWater: '0' });
   assert.ok(rows.length > 0);
-  assert.ok(rows.every(f => f.status === 'available' && f.lightview.living.facing === 'NE' && f.lightview.sun.winter.hours >= 1 && f.lightview.view.skyPct >= 10));
+  assert.ok(rows.every(f => f.status === choice.status && f.lightview.living.facing === facing && f.lightview.sun.winter.hours >= hours && f.lightview.view.skyPct >= sky));
   for (const sort of ['winterSun-asc', 'winterSun-desc', 'sky-desc', 'water-desc']) {
     const sorted = selectFlats(merged, { sort });
     assert.ok(sorted[0].lightview);
     assert.ok(!sorted.at(-1).lightview);
   }
-  const zero = merged.find(f => f.lightview?.sun.winter.hours === 0);
-  assert.ok(zero);
+  const zero = { ...choice, lightview: { ...choice.lightview, sun: { ...choice.lightview.sun, winter: { hours: 0 } } } };
   assert.equal(toCsv([zero]).split('\r\n')[1].split(',')[14], '"0"');
   assert.equal(selectFlats(merged).length, 4443);
 });

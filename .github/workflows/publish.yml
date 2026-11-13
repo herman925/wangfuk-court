@@ -1,0 +1,127 @@
+name: Refresh data and publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # UTC: Hong Kong 12:23, 18:23 and 21:23 every day.
+    - cron: '23 4,10,13 * * *'
+
+concurrency:
+  group: data-and-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  refresh-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m venv .venv
+          .venv/bin/pip install -r tools/requirements.txt
+      - name: Refresh official selection statuses
+        id: selection
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: |
+          if ! .venv/bin/python tools/update_snapshot.py; then
+            git restore -- docs/data/snapshot.json data/provenance.json
+            exit 1
+          fi
+      - name: Refresh Lightview models
+        id: lightview
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: |
+          if ! .venv/bin/python tools/import_lightview.py; then
+            git restore -- docs/data/lightview.json data/lightview/provenance.json
+            exit 1
+          fi
+      - name: Check official Sierra publications
+        id: sierra
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: |
+          if ! .venv/bin/python tools/check_sierra.py; then
+            git restore -- docs/data/sierra-audit.json
+            exit 1
+          fi
+      - name: Validate data and filters
+        run: |
+          .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
+          .venv/bin/python -c "import json; from tools.update_snapshot import validate_snapshot; validate_snapshot(json.load(open('docs/data/snapshot.json', encoding='utf-8')))"
+          npm run check
+      - name: Record source checks
+        if: github.event_name != 'push'
+        env:
+          SELECTION: ${{ steps.selection.outcome }}
+          LIGHTVIEW: ${{ steps.lightview.outcome }}
+          SIERRA: ${{ steps.sierra.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          .venv/bin/python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          path = Path('docs/data/update-status.json')
+          previous = json.loads(path.read_text()) if path.exists() else {}
+          now = datetime.now(timezone.utc).isoformat()
+          report = {}
+          for name in ('selection', 'lightview', 'sierra'):
+              outcome = os.environ[name.upper()]
+              assert outcome in ('success', 'failure'), outcome
+              report[name] = dict(lastAttemptAt=now, outcome=outcome, runUrl=os.environ['RUN_URL'],
+                                  lastSuccessAt=now if outcome == 'success' else previous.get(name, {}).get('lastSuccessAt'))
+          path.write_text(json.dumps(report, indent=2) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('| Source | Result |\n|---|---|\n')
+              for name, result in report.items():
+                  summary.write(f'| {name} | {result["outcome"]} |\n')
+              summary.write('\nSource dates remain unchanged when publishers have not released new data. Sierra is an audit only; its user-PDF selection baseline is retained.\n')
+          PY
+      - name: Commit validated data
+        if: github.event_name != 'push'
+        run: |
+          git add docs/data/snapshot.json data/provenance.json docs/data/lightview.json data/lightview/provenance.json docs/data/sierra-audit.json docs/data/update-status.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -F - <<'MSG'
+          🤖 data: refresh published housing data and source checks
+
+          What: Refresh validated source snapshots and check outcomes.
+          Why: Keep residents' comparison data aligned with published sources.
+          Tests: Python suite, snapshot validation and npm run check passed.
+          MSG
+            git push origin HEAD:main
+          fi
+      # GITHUB_TOKEN commits do not trigger another push workflow; deploy this checked snapshot here.
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Report source failures after publishing valid data
+        if: ${{ steps.selection.outcome == 'failure' || steps.lightview.outcome == 'failure' || steps.sierra.outcome == 'failure' }}
+        run: |
+          echo '::error::A source check failed. Its last valid snapshot was retained; see the failed source step and update-status.json.'
+          exit 1

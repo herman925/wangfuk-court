@@ -9,11 +9,11 @@
 ## 技術及網站
 
 - 純靜態 HTML/CSS/ES modules，無前端依賴、無帳戶、無分析追蹤。
-- Pages 從 `main:/docs` 發布；所有資源使用相對路徑，必須在 `/wangfuk-court/` 子路徑正常運作。
+- Pages 由 `.github/workflows/publish.yml` 發布 `main` 的 `docs/`（Pages設定為GitHub Actions）；所有資源使用相對路徑，必須在 `/wangfuk-court/` 子路徑正常運作。
 - 修改介面及程式時，一併更新 `index.html` 的CSS／JS資源版本查詢字串，避免GitHub Pages及瀏覽器快取造成新HTML混用舊程式。正式站驗證可在頁面網址加版本查詢字串。
 - `docs/model.js` 為篩選／排序／CSV邏輯，`docs/app.js` 為介面；金額資料一律用港元整數，輸入「最高售價」為萬港元。
 - 畫面顯示基準日期，不可宣稱實時供應。綠色available＝未揀選，紅色picked＝已揀選（包含已選及已售）；文字標籤必須保留，不可只用顏色。其他九個項目採官方狀態，樂嶺軒用使用者PDF並逐伙明示來源。
-- 更新不要自動 push；完成所有核對後依使用者授權提交。不要複製任何其他倉庫的 `.git`、`.env`、憑證、個人信件或原始第三方彙編。
+- 使用者於2026-11-13明確要求自動更新官方揀選狀態及Lightview，已授權下述排程通過驗證後自動提交及發布。手動改程式仍先核對再提交。不要複製任何其他倉庫的 `.git`、`.env`、憑證、個人信件或原始第三方彙編。
 
 ## 核心資料與初始核對結果
 
@@ -99,6 +99,29 @@ python tools/update_snapshot.py --sierra-pdf 'C:/path/宏福苑特設銷售計�
 程式僅抽取樂嶺軒的已選列，拒絕重複或不在特設300伙內的ID。沒有指定新PDF時維持已存來源及其日期；其他九個項目可更新，表內逐伙顯示各自來源日期。不得以成交紀錄冊沒有記錄推算未選；成交冊只作輔助核對。
 
 ## 更新程序
+
+### 自動抓取（已獲使用者授權）
+
+`.github/workflows/publish.yml` 每日UTC 04:23、10:23、13:23（香港時間12:23、18:23、21:23）及手動 `workflow_dispatch` 執行三項獨立來源檢查：
+
+1. `update_snapshot.py` 抓取19份官方狀態表，保留樂嶺軒PDF基線。
+2. `import_lightview.py` 抓取三個公開項目包，重新配對及驗證。
+3. `check_sierra.py` 查詢官網最新狀態文件及成交冊，僅作監察，不改PDF狀態。
+
+每項失敗會還原該來源的生成檔，其他來源繼續；完整Python及Node測試通過後才提交明列的資料檔並在同一工作流程發布。來源失敗會在發布有效資料後把工作流程標成失敗，並保留紀錄。測試、提交或部署失敗則停止，不以force push處理衝突。並行鎖避免排程互相覆蓋。
+
+`docs/data/update-status.json`保存每個來源最後嘗試、結果、最後成功時間及Actions連結；**檢查時間不等於來源公布日期**。網頁顯示兩者。`docs/data/sierra-audit.json`保存官方文件清單、成交冊網址／日期／SHA-256、供選範圍內曾出現的交易鍵及與PDF差異。成交記錄可能含終止或重售，不等於現時可售狀態。發現新狀態文件或PDF以外交易鍵會在Actions警示，待核對格式及適用範圍後才更換來源。
+
+GitHub的`GITHUB_TOKEN`提交不會觸發另一個push工作流程，因此本流程直接發布已驗證的`docs/`，不依賴連鎖push，也不需要個人token。程式push只驗證及發布已提交資料；定時／手動執行才抓網絡來源。Actions排程可能延遲，公開倉庫60日沒有活動亦可能停用，須查看Actions執行記錄。
+
+```powershell
+gh workflow run publish.yml --ref main
+gh run list --workflow publish.yml
+```
+
+Lightview拒絕覆蓋較新的模型日期或丟失既有配對的快照；此類變動須人工核對。內容沒有變更時保留`capturedAt`，成功檢查時間另記於`update-status.json`。官方混合日期及其餘驗證規則維持有效，不能為自動化而繞過。
+
+### 手動抓取及重播
 
 所有Python工具先啟用專案虛擬環境。首次：
 

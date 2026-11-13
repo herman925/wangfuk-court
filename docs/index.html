@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261113-lightview">
-  <script type="module" src="./app.js?v=20261113-lightview"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261113-auto">
+  <script type="module" src="./app.js?v=20261113-auto"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -42,6 +42,7 @@
         <div class="summary-strip"><div><span>符合條件單位</span><strong id="stat-count">—</strong></div><div><span>價單售價範圍 · 萬港元</span><strong id="stat-price">—</strong></div><div><span>實用面積 · 平方呎</span><strong id="stat-area">—</strong></div></div>
         <div id="status-counts" class="status-counts" aria-label="揀選狀態統計"></div>
         <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
+        <p id="refresh-note" class="analysis-coverage">自動檢查：每日香港時間12:23、18:23及21:23；資料日期以來源公布為準。</p>
         <p id="verification-note" class="notice"></p>
         <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="winterSun-desc">冬至日照：由多至少</option><option value="sky-desc">天空比例：由高至低</option><option value="water-desc">水面比例：由高至低</option><option value="estate-asc">屋苑名稱</option></select></label></div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table role="table"><caption class="sr-only">符合篩選條件的特設計劃供選單位</caption><thead role="rowgroup"><tr role="row"><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">價單售價（港元）</th><th scope="col">揀選狀態</th><th scope="col">日照及景觀模擬</th></tr></thead><tbody id="flat-rows" role="rowgroup"></tbody></table></div>

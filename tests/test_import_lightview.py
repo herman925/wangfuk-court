@@ -2,10 +2,20 @@ import copy
 import json
 import unittest
 
-from tools.import_lightview import ROOT, enrich_flat, extract_bundle
+from tools.import_lightview import ROOT, enrich_flat, extract_bundle, validate_refresh
 
 
 class LightviewTests(unittest.TestCase):
+    def test_automatic_refresh_rejects_lost_coverage_and_older_models(self):
+        previous = dict(flats={'a': {}}, projects={'project': dict(matched=1, dataDate={'cityModel': '2026-11-12'})})
+        validate_refresh(previous, previous)
+        with self.assertRaises(ValueError):
+            validate_refresh({**previous, 'flats': {}}, previous)
+        with self.assertRaises(ValueError):
+            validate_refresh({**previous, 'flats': {'b': {}}}, previous)
+        with self.assertRaises(ValueError):
+            validate_refresh({**previous, 'projects': {'project': dict(matched=1, dataDate={'cityModel': '2026-11-11'})}}, previous)
+
     def setUp(self):
         self.flat = dict(id='fixture', estate='灝然', block='1A', floor=2, unit='A', sqm=40)
         season = dict(hours=0, morningHours=0, afternoonHours=0, sunlit=[])
