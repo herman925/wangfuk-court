@@ -28,6 +28,8 @@ function render() {
   $('estate-note').textContent = estate ? `${estate.district} · 原先供選 ${estate.initial} 伙 · 本次快照餘 ${estate.remaining} 伙` : `10個屋苑 · 原先供選 ${integer.format(snapshot.initialCount)} 伙`;
   $('result-count').textContent = `找到 ${integer.format(filtered.length)} 伙符合條件的單位`;
   $('stat-count').textContent = integer.format(filtered.length);
+  $('mobile-count').textContent = `${integer.format(filtered.length)}伙`;
+  $('apply-filters').textContent = `顯示 ${integer.format(filtered.length)} 伙結果`;
   const prices = filtered.map(row => row.price), areas = filtered.map(row => row.sqft);
   $('stat-price').textContent = prices.length ? `${money(Math.min(...prices))}–${money(Math.max(...prices))}` : '—';
   $('stat-area').textContent = areas.length ? `${Math.min(...areas)}–${Math.max(...areas)}` : '—';
@@ -35,7 +37,7 @@ function render() {
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   page = Math.min(page, pages);
   const start = (page - 1) * pageSize;
-  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr><td><strong>${escape(row.estate)}</strong><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small></td><td>${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td class="numeric"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td class="numeric"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td><span class="status ${row.verification === 'official' ? '' : 'estimated'}">${row.verification === 'official' ? '官方已核對' : '彙編推算'}</span></td></tr>`).join('');
+  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr role="row"><td role="cell"><strong>${escape(row.estate)}</strong><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small></td><td role="cell">${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td role="cell" class="numeric" data-label="實用面積"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td role="cell" class="numeric" data-label="售價（港元）"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td role="cell"><span class="status ${row.verification === 'official' ? '' : 'estimated'}">${row.verification === 'official' ? '官方已核對' : '彙編推算'}</span></td></tr>`).join('');
   $('empty').hidden = filtered.length !== 0;
   $('page-info').textContent = filtered.length ? `${start + 1}–${Math.min(start + pageSize, filtered.length)} / ${integer.format(filtered.length)} 伙 · 第 ${page} / ${pages} 頁` : '0 伙';
   $('previous').disabled = page === 1;
@@ -64,12 +66,6 @@ async function init() {
       page = 1; render();
     }));
     $('reset').addEventListener('click', reset);
-    $('toggle-filters').addEventListener('click', () => {
-      const expanded = $('toggle-filters').getAttribute('aria-expanded') !== 'true';
-      $('toggle-filters').setAttribute('aria-expanded', String(expanded));
-      $('toggle-filters').textContent = expanded ? '收起進階篩選 −' : '展開面積、預算及樓層篩選 ＋';
-      document.querySelector('.filters').classList.toggle('expanded', expanded);
-    });
     $('empty-reset').addEventListener('click', reset);
     document.querySelectorAll('[data-area]').forEach(button => button.addEventListener('click', () => { $('minArea').value = button.dataset.area; $('maxArea').value = ''; page = 1; render(); }));
     $('previous').addEventListener('click', () => { page--; render(); });
@@ -86,4 +82,37 @@ async function init() {
     console.error(error);
   }
 }
+
+const drawer = $('filter-drawer');
+const mobile = window.matchMedia('(max-width: 650px)');
+function releaseDrawer() {
+  document.body.classList.remove('drawer-open');
+  $('open-filters').setAttribute('aria-expanded', 'false');
+}
+function closeDrawer() {
+  drawer.close();
+  releaseDrawer();
+}
+function syncDrawer() {
+  closeDrawer();
+  drawer.setAttribute('role', mobile.matches ? 'dialog' : 'region');
+  if (!mobile.matches) drawer.show();
+}
+drawer.addEventListener('close', () => { if (!drawer.matches(':modal')) releaseDrawer(); });
+drawer.addEventListener('cancel', event => { event.preventDefault(); closeDrawer(); });
+$('open-filters').addEventListener('click', () => {
+  if (!mobile.matches || drawer.open) return;
+  drawer.showModal();
+  document.body.classList.add('drawer-open');
+  $('open-filters').setAttribute('aria-expanded', 'true');
+});
+$('close-filters').addEventListener('click', closeDrawer);
+$('apply-filters').addEventListener('click', closeDrawer);
+drawer.addEventListener('click', event => {
+  if (!mobile.matches || event.target !== drawer) return;
+  const rect = drawer.getBoundingClientRect();
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDrawer();
+});
+mobile.addEventListener('change', syncDrawer);
+syncDrawer();
 init();
