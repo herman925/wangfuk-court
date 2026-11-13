@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261113-midnight">
-  <script type="module" src="./app.js?v=20261113-midnight"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261113-wishlist">
+  <script type="module" src="./app.js?v=20261113-wishlist"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -26,6 +26,7 @@
         <label for="estate">屋苑</label><select id="estate"><option value="">全部屋苑</option></select>
         <div id="estate-note" class="estate-note">載入屋苑資料中…</div>
         <div id="advanced-filters" class="advanced-filters">
+        <label class="checkbox wishlist-filter"><input id="wishlistOnly" type="checkbox"><span>只看心許之所（收藏）</span></label>
         <label for="status">揀選狀態</label><select id="status"><option value="">全部供選單位</option><option value="available">未揀選</option><option value="picked">已揀選</option></select>
         <label for="block">座數</label><select id="block"><option value="">全部座數</option></select>
         <fieldset><legend>實用面積 <span>平方呎</span></legend><div class="range"><input id="minArea" type="number" min="0" step="1" placeholder="最低" aria-label="最低實用面積（平方呎）"><span>至</span><input id="maxArea" type="number" min="0" step="1" placeholder="最高" aria-label="最高實用面積（平方呎）"></div></fieldset>
@@ -39,6 +40,22 @@
       <section class="results" id="results" aria-labelledby="results-heading">
         <div id="error" class="error" role="alert" hidden></div>
         <div class="section-heading result-heading"><div><h2 id="results-heading">全部屋苑</h2><p id="result-count" role="status" aria-live="polite">正在載入單位資料…</p></div><button id="download" class="outline-button" type="button" disabled>匯出篩選結果 ↓</button></div>
+        <details id="wishlist-tools" class="wishlist-tools">
+          <summary><span>♡ 心許之所 <span id="wishlist-count">0伙</span></span><span class="wishlist-tools-label">分享／匯入</span></summary>
+          <p class="wishlist-intro">把心之所向，留待與家人細說。</p>
+          <p id="wishlist-storage-note" class="wishlist-note">收藏儲存於此瀏覽器；清除網站資料或使用私人瀏覽可能令清單消失。跨裝置請分享及匯入。</p>
+          <section aria-labelledby="share-heading"><h3 id="share-heading">分享清單</h3><p class="wishlist-note">包括全部收藏，不受目前篩選或分頁限制。</p>
+            <label class="sr-only" for="wishlist-share">可分享及匯入的收藏清單</label><textarea id="wishlist-share" readonly rows="8" placeholder="按單位旁的「♡ 心許」收藏，便會在這裡生成清單。"></textarea>
+            <div class="wishlist-actions"><button id="copy-wishlist" class="outline-button" type="button" disabled>複製清單</button><button id="whatsapp-wishlist" class="outline-button" type="button" disabled>分享到 WhatsApp ↗</button></div>
+            <p id="share-feedback" class="wishlist-note" role="status"></p>
+          </section>
+          <section aria-labelledby="import-heading"><h3 id="import-heading">匯入清單</h3><label for="wishlist-import">貼上家人分享的完整文字</label><textarea id="wishlist-import" rows="5" maxlength="2000000" placeholder="例如：&#10;1. *【啟陽苑｜A座｜3樓｜5室】*"></textarea>
+            <p id="import-preview" class="wishlist-note" role="status">只加入能與供選名單配對的單位；保留原有收藏，並採用網站目前的售價及揀選狀態。</p>
+            <button id="import-wishlist" class="outline-button" type="button" disabled>加入心許之所</button>
+          </section>
+        </details>
+        <p id="wishlist-warning" class="notice" role="alert" hidden></p>
+        <p id="wishlist-feedback" class="wishlist-feedback" role="status" aria-live="polite"></p>
         <div class="summary-strip"><div><span>符合條件單位</span><strong id="stat-count">—</strong></div><div><span>價單售價範圍 · 萬港元</span><strong id="stat-price">—</strong></div><div><span>實用面積 · 平方呎</span><strong id="stat-area">—</strong></div></div>
         <div id="status-counts" class="status-counts" aria-label="揀選狀態統計"></div>
         <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
@@ -46,7 +63,7 @@
         <p id="verification-note" class="notice"></p>
         <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="winterSun-desc">冬至日照：由多至少</option><option value="sky-desc">天空比例：由高至低</option><option value="water-desc">水面比例：由高至低</option><option value="estate-asc">屋苑名稱</option></select></label></div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table role="table"><caption class="sr-only">符合篩選條件的特設計劃供選單位</caption><thead role="rowgroup"><tr role="row"><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">價單售價（港元）</th><th scope="col">揀選狀態</th><th scope="col">日照及景觀模擬</th></tr></thead><tbody id="flat-rows" role="rowgroup"></tbody></table></div>
-        <div id="empty" class="empty" hidden><strong>暫時沒有符合條件的單位</strong><p>試試提高預算、放寬面積或樓層，或按「重設」重新選擇。</p><button id="empty-reset" class="outline-button" type="button">重設篩選</button></div>
+        <div id="empty" class="empty" hidden><strong>暫時沒有符合條件的單位</strong><p id="empty-note">試試提高預算、放寬面積或樓層，或按「重設」重新選擇。</p><button id="empty-reset" class="outline-button" type="button">重設篩選</button></div>
         <div class="pagination"><span id="page-info"></span><div><button id="previous" class="outline-button" type="button" disabled>← 上一頁</button><button id="next" class="outline-button" type="button" disabled>下一頁 →</button></div></div>
       </section>
     </div>

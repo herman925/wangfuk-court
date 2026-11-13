@@ -12,6 +12,7 @@ export function selectFlats(flats, filters = {}) {
     && f.sqft >= minArea && f.sqft <= maxArea && f.price <= maxPrice
     && f.floor >= minFloor && f.floor <= maxFloor
     && (!filters.status || f.status === filters.status)
+    && (!filters.wishlistOnly || filters.wishlistIds?.has(f.id))
     && (!filters.facing || f.lightview?.living.facing === filters.facing)
     && (filters.minWinterSun == null || filters.minWinterSun === '' || (f.lightview && analysisValue(f, 'winterSun') >= Number(filters.minWinterSun)))
     && (filters.minSky == null || filters.minSky === '' || (f.lightview && analysisValue(f, 'sky') >= Number(filters.minSky)))
