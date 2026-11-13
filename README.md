@@ -34,7 +34,7 @@ python -m unittest discover -s tests -p 'test_*.py'
 npm run check
 ```
 
-現已由GitHub Actions每日香港時間 **12:23、18:23、21:23** 自動抓取官方揀選狀態及Lightview，驗證後更新網站。亦可在 [Actions](https://github.com/herman925/wangfuk-court/actions/workflows/publish.yml) 按「Run workflow」立即執行。來源失敗時保留該來源上次有效快照，其他來源繼續；頁面顯示最後檢查結果，表內仍保留來源公布日期。排程可能受GitHub延遲，並非實時資料。
+現已由GitHub Actions每日香港時間 **00:00** 自動抓取官方揀選狀態及Lightview，驗證後更新網站。亦可在 [Actions](https://github.com/herman925/wangfuk-court/actions/workflows/publish.yml) 按「Run workflow」立即執行。來源失敗時保留該來源上次有效快照，其他來源繼續；頁面顯示最後檢查結果，表內仍保留來源公布日期。排程可能受GitHub延遲，並非實時資料。
 
 樂嶺軒每日同步監察[官方銷售情況](https://sierraterrace.hkhs.com/sales-info/latest-sales-status/)及[成交紀錄冊](https://sierraterrace.hkhs.com/sales-info/register-of-transactions/)。2026-11-13查核仍沒有完整已揀選／未售表；成交冊只涵蓋特設供選範圍內224伙記錄，無法取代使用者PDF的272伙已選狀態。詳見 [來源調查](research/sierra-status-sources.md)。
 

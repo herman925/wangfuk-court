@@ -1,4 +1,4 @@
-import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-auto';
+import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-midnight';
 
 const $ = id => document.getElementById(id);
 const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'facing', 'minWinterSun', 'minSky', 'minWater', 'query', 'sort'];
@@ -69,7 +69,7 @@ async function showRefreshStatus() {
     const status = await response.json();
     const labels = { selection: '官方揀選狀態', lightview: 'Lightview', sierra: '樂嶺軒公告' };
     const time = date => date ? new Date(date).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', hour12: false }) : '未有成功記錄';
-    $('refresh-note').textContent = `每日香港時間12:23、18:23及21:23自動檢查。${Object.entries(labels).map(([key, label]) => {
+    $('refresh-note').textContent = `每日香港時間00:00自動檢查。${Object.entries(labels).map(([key, label]) => {
       const result = status[key];
       return result ? `${label}：${result.outcome === 'success' ? `已檢查 ${time(result.lastSuccessAt)}` : `本次失敗，保留上次資料（最後成功 ${time(result.lastSuccessAt)}）`}` : `${label}：未有記錄`;
     }).join('；')}。來源未發布新資料時，表內資料日期不會改動；樂嶺軒公告只作監察。`;

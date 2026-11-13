@@ -102,7 +102,7 @@ python tools/update_snapshot.py --sierra-pdf 'C:/path/宏福苑特設銷售計�
 
 ### 自動抓取（已獲使用者授權）
 
-`.github/workflows/publish.yml` 每日UTC 04:23、10:23、13:23（香港時間12:23、18:23、21:23）及手動 `workflow_dispatch` 執行三項獨立來源檢查：
+`.github/workflows/publish.yml` 每日UTC 16:00（翌日香港時間00:00）及手動 `workflow_dispatch` 執行三項獨立來源檢查：
 
 1. `update_snapshot.py` 抓取19份官方狀態表，保留樂嶺軒PDF基線。
 2. `import_lightview.py` 抓取三個公開項目包，重新配對及驗證。
