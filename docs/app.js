@@ -1,5 +1,5 @@
-import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-wishlist';
-import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-wishlist';
+import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-clean-list';
+import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-clean-list';
 
 const $ = id => document.getElementById(id);
 const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'facing', 'minWinterSun', 'minSky', 'minWater', 'wishlistOnly', 'query', 'sort'];
@@ -129,24 +129,17 @@ function render() {
   $('results-heading').textContent = f.wishlistOnly ? `${estate ? estate.name + ' · ' : ''}心許之所` : estate ? estate.name : '全部屋苑';
   $('estate-note').textContent = estate ? `${estate.district} · 特設供選 ${estate.initial} 伙 · 未揀選 ${estate.available} 伙` : `10個項目 · 特設供選範圍 ${integer.format(snapshot.initialCount)} 伙`;
   $('result-count').textContent = `找到 ${integer.format(filtered.length)} 伙符合條件的單位`;
-  $('stat-count').textContent = integer.format(filtered.length);
   $('mobile-count').textContent = `${integer.format(filtered.length)}伙`;
   $('apply-filters').textContent = `顯示 ${integer.format(filtered.length)} 伙結果`;
-  const prices = filtered.map(row => row.price), areas = filtered.map(row => row.sqft);
-  $('stat-price').textContent = prices.length ? `${money(Math.min(...prices))}–${money(Math.max(...prices))}` : '—';
-  $('stat-area').textContent = areas.length ? `${Math.min(...areas)}–${Math.max(...areas)}` : '—';
-  $('verification-note').hidden = !filtered.some(row => row.source === 'user-pdf');
-  const sierra = snapshot.flats.find(row => row.source === 'user-pdf');
-  $('verification-note').textContent = sierra ? `樂嶺軒狀態採用使用者提供的 ${sierra.asOf} 已選PDF，並非官方完整選樓表；只計特設計劃供選的300伙。` : '';
   $('status-counts').innerHTML = Object.entries(STATUS_LABELS).map(([state, label]) => `<span class="status ${state}">${label} ${integer.format(filtered.filter(row => row.status === state).length)} 伙</span>`).join('');
-  $('analysis-coverage').textContent = `其中 ${integer.format(filtered.filter(row => row.lightview).length)} 伙有可配對的 Lightview 日照及景觀模擬；缺少或面積不符的資料不套用。`;
+  $('analysis-coverage').textContent = `目前篩選結果中，${integer.format(filtered.filter(row => row.lightview).length)} 伙有可配對的 Lightview 日照及景觀模擬；缺少或面積不符的資料不套用。`;
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   page = Math.min(page, pages);
   const start = (page - 1) * pageSize;
-  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr role="row"><td role="cell"><strong>${escape(row.estate)}</strong><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small><button type="button" class="wish-button" data-wishlist-id="${escape(row.id)}" aria-pressed="${wishlist.has(row.id)}" aria-label="${wishlist.has(row.id) ? '移除' : '加入'}心許之所：${escape(row.estate)} ${row.block === '-' ? '不分座' : escape(row.block) + '座'} ${row.floor}樓 ${escape(row.unit)}室">${wishlist.has(row.id) ? '♥ 已心許' : '♡ 心許'}</button></td><td role="cell">${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td role="cell" class="numeric" data-label="實用面積"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td role="cell" class="numeric" data-label="價單售價（港元）"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td role="cell" class="status-cell"><span class="status ${row.status}">${STATUS_LABELS[row.status]}</span><small>${row.source === 'official' ? `官方${escape(row.sourceStatus)}` : '使用者提供PDF'} · ${escape(row.asOf)}</small></td><td role="cell" class="analysis-cell">${analysisCell(row)}</td></tr>`).join('');
+  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr role="row"><td role="cell"><div class="flat-heading"><strong>${escape(row.estate)}</strong><button type="button" class="wish-button" data-wishlist-id="${escape(row.id)}" aria-pressed="${wishlist.has(row.id)}" aria-label="${wishlist.has(row.id) ? '移除' : '加入'}心許之所：${escape(row.estate)} ${row.block === '-' ? '不分座' : escape(row.block) + '座'} ${row.floor}樓 ${escape(row.unit)}室">${wishlist.has(row.id) ? '♥' : '♡'}</button></div><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small></td><td role="cell">${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td role="cell" class="numeric" data-label="實用面積"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td role="cell" class="numeric" data-label="價單售價（港元）"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td role="cell" class="status-cell"><span class="status ${row.status}">${STATUS_LABELS[row.status]}</span><small>${row.source === 'official' ? `官方${escape(row.sourceStatus)}` : '使用者提供PDF'} · ${escape(row.asOf)}</small></td><td role="cell" class="analysis-cell">${analysisCell(row)}</td></tr>`).join('');
   $('empty').hidden = filtered.length !== 0;
   $('empty-note').textContent = f.wishlistOnly && !wishlist.size
-    ? '尚未收藏單位。按「重設篩選」返回名單，再按單位旁的「♡ 心許」；亦可匯入家人分享的清單。'
+    ? '尚未收藏單位。按「重設篩選」返回名單，再按單位旁的「♡」；亦可匯入家人分享的清單。'
     : '試試提高預算、放寬面積或樓層，或按「重設」重新選擇。';
   $('page-info').textContent = filtered.length ? `${start + 1}–${Math.min(start + pageSize, filtered.length)} / ${integer.format(filtered.length)} 伙 · 第 ${page} / ${pages} 頁` : '0 伙';
   $('previous').disabled = page === 1;

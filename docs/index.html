@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261113-wishlist">
-  <script type="module" src="./app.js?v=20261113-wishlist"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261113-clean-list">
+  <script type="module" src="./app.js?v=20261113-clean-list"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -45,7 +45,7 @@
           <p class="wishlist-intro">把心之所向，留待與家人細說。</p>
           <p id="wishlist-storage-note" class="wishlist-note">收藏儲存於此瀏覽器；清除網站資料或使用私人瀏覽可能令清單消失。跨裝置請分享及匯入。</p>
           <section aria-labelledby="share-heading"><h3 id="share-heading">分享清單</h3><p class="wishlist-note">包括全部收藏，不受目前篩選或分頁限制。</p>
-            <label class="sr-only" for="wishlist-share">可分享及匯入的收藏清單</label><textarea id="wishlist-share" readonly rows="8" placeholder="按單位旁的「♡ 心許」收藏，便會在這裡生成清單。"></textarea>
+            <label class="sr-only" for="wishlist-share">可分享及匯入的收藏清單</label><textarea id="wishlist-share" readonly rows="8" placeholder="按單位旁的「♡」收藏，便會在這裡生成清單。"></textarea>
             <div class="wishlist-actions"><button id="copy-wishlist" class="outline-button" type="button" disabled>複製清單</button><button id="whatsapp-wishlist" class="outline-button" type="button" disabled>分享到 WhatsApp ↗</button></div>
             <p id="share-feedback" class="wishlist-note" role="status"></p>
           </section>
@@ -56,18 +56,17 @@
         </details>
         <p id="wishlist-warning" class="notice" role="alert" hidden></p>
         <p id="wishlist-feedback" class="wishlist-feedback" role="status" aria-live="polite"></p>
-        <div class="summary-strip"><div><span>符合條件單位</span><strong id="stat-count">—</strong></div><div><span>價單售價範圍 · 萬港元</span><strong id="stat-price">—</strong></div><div><span>實用面積 · 平方呎</span><strong id="stat-area">—</strong></div></div>
         <div id="status-counts" class="status-counts" aria-label="揀選狀態統計"></div>
-        <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
-        <p id="refresh-note" class="analysis-coverage">自動檢查：每日香港時間00:00；資料日期以來源公布為準。</p>
-        <p id="verification-note" class="notice"></p>
         <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="winterSun-desc">冬至日照：由多至少</option><option value="sky-desc">天空比例：由高至低</option><option value="water-desc">水面比例：由高至低</option><option value="estate-asc">屋苑名稱</option></select></label></div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table role="table"><caption class="sr-only">符合篩選條件的特設計劃供選單位</caption><thead role="rowgroup"><tr role="row"><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">價單售價（港元）</th><th scope="col">揀選狀態</th><th scope="col">日照及景觀模擬</th></tr></thead><tbody id="flat-rows" role="rowgroup"></tbody></table></div>
         <div id="empty" class="empty" hidden><strong>暫時沒有符合條件的單位</strong><p id="empty-note">試試提高預算、放寬面積或樓層，或按「重設」重新選擇。</p><button id="empty-reset" class="outline-button" type="button">重設篩選</button></div>
         <div class="pagination"><span id="page-info"></span><div><button id="previous" class="outline-button" type="button" disabled>← 上一頁</button><button id="next" class="outline-button" type="button" disabled>下一頁 →</button></div></div>
       </section>
     </div>
-    <section id="sources" class="sources"><h2>把遠方的想望，安放在有據的選擇裡。</h2><p>這是一個民間整理的選樓參考工具，只列宏福苑特設計劃的供選範圍。售價採用官方價單，未加印花稅及交易費用；實際供應以售樓處確認為準。</p><details><summary>查看來源及核對說明</summary><div id="source-list"></div><p>其他九個項目以官方「未售／已選／已售」表逐伙核對；已選及已售統一顯示為紅色「已揀選」。樂嶺軒按使用者提供的已選PDF判定，並在表內標示來源。官方成交冊僅用作輔助核對，不用作推算未揀選單位。</p><p id="snapshot-note"></p><a href="https://github.com/herman925/wangfuk-court/blob/main/AGENTS.md">資料更新方法 ↗</a></details></section>
+    <section id="sources" class="sources"><h2>把遠方的想望，安放在有據的選擇裡。</h2><p>這是一個民間整理的選樓參考工具，只列宏福苑特設計劃的供選範圍。售價採用官方價單，未加印花稅及交易費用；實際供應以售樓處確認為準。</p>
+      <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
+      <p id="refresh-note" class="analysis-coverage">自動檢查：每日香港時間00:00；資料日期以來源公布為準。</p>
+      <details><summary>查看來源及核對說明</summary><div id="source-list"></div><p>其他九個項目以官方「未售／已選／已售」表逐伙核對；已選及已售統一顯示為紅色「已揀選」。樂嶺軒按使用者提供的已選PDF判定，並在表內標示來源。官方成交冊僅用作輔助核對，不用作推算未揀選單位。</p><p id="snapshot-note"></p><a href="https://github.com/herman925/wangfuk-court/blob/main/AGENTS.md">資料更新方法 ↗</a></details></section>
   </main>
   <section class="lightview-credit"><p>日照及景觀分析來源：<a href="https://lightview.app/" target="_blank" rel="noopener noreferrer">光景 Lightview · JOL Studio Limited ↗</a>。涵蓋部分啟陽苑、裕豐苑及灝然單位；模擬數據與揀選狀態分開管理。<a href="https://github.com/herman925/wangfuk-court/blob/main/research/lightview-investigation.md">分析方法及涵蓋限制 ↗</a></p></section>
   <footer><span>宏福苑選樓參考</span><span>願一桌飯香，續寫日常的溫柔。</span></footer>
