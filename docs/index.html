@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="宏福苑特設銷售計劃選樓參考：比較10個屋苑的剩餘單位，按售價、面積及樓層篩選。">
+  <meta name="theme-color" content="#234b40">
+  <title>宏福苑選樓參考</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#results">跳至單位名單</a>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="宏福苑選樓參考首頁"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 30V12l9-6v24M13 30V4l11 6v20M24 30V15l8 4v11M1 31h34M8 15v3m0 4v3m10-15v4m0 4v4m0 4v2m10-8v6"/></svg><span>宏福苑<span class="brand-sub">選樓參考</span></span></a>
+    <nav aria-label="主要導覽"><a href="#sources">資料來源</a><a href="https://github.com/herman925/wangfuk-court">GitHub ↗</a></nav>
+  </header>
+  <main>
+    <section class="intro">
+      <div><h1>一步一步，找到合適的家。</h1><p>宏福苑業主「特設銷售計劃」剩餘單位比較</p></div>
+      <div class="date-note"><span class="dot"></span><span>資料基準 <strong id="snapshot-date">載入中</strong><small>每日銷售會有變動，並非實時供應</small></span></div>
+    </section>
+    <div class="workspace">
+      <aside class="filters" aria-labelledby="filters-heading">
+        <div class="section-heading"><h2 id="filters-heading">選擇條件</h2><button id="reset" class="text-button" type="button">重設</button></div>
+        <label for="estate">屋苑</label><select id="estate"><option value="">全部屋苑</option></select>
+        <div id="estate-note" class="estate-note">載入屋苑資料中…</div>
+        <button id="toggle-filters" class="outline-button toggle-filters" type="button" aria-expanded="false" aria-controls="advanced-filters">展開面積、預算及樓層篩選 ＋</button>
+        <div id="advanced-filters" class="advanced-filters">
+        <label for="block">座數</label><select id="block"><option value="">全部座數</option></select>
+        <fieldset><legend>實用面積 <span>平方呎</span></legend><div class="range"><input id="minArea" type="number" min="0" step="1" placeholder="最低" aria-label="最低實用面積（平方呎）"><span>至</span><input id="maxArea" type="number" min="0" step="1" placeholder="最高" aria-label="最高實用面積（平方呎）"></div></fieldset>
+        <div class="quick" aria-label="面積快捷篩選"><button type="button" data-area="400">400呎或以上</button><button type="button" data-area="450">450呎或以上</button></div>
+        <label for="maxPrice">最高售價 <span>萬港元</span></label><input id="maxPrice" type="number" min="0" step="1" placeholder="例如 350">
+        <fieldset><legend>樓層</legend><div class="range"><input id="minFloor" type="number" min="1" step="1" placeholder="最低" aria-label="最低樓層"><span>至</span><input id="maxFloor" type="number" min="1" step="1" placeholder="最高" aria-label="最高樓層"></div></fieldset>
+        <label class="checkbox"><input id="verified" type="checkbox"><span>只看官方未售表已核對單位</span></label>
+        <p class="filter-tip">可以同時設定多個條件，逐步縮窄選擇。</p>
+        </div>
+      </aside>
+      <section class="results" id="results" aria-labelledby="results-heading">
+        <div id="error" class="error" role="alert" hidden></div>
+        <div class="section-heading result-heading"><div><h2 id="results-heading">全部屋苑</h2><p id="result-count" role="status" aria-live="polite">正在載入單位資料…</p></div><button id="download" class="outline-button" type="button" disabled>匯出篩選結果 ↓</button></div>
+        <div class="summary-strip"><div><span>剩餘單位</span><strong id="stat-count">—</strong></div><div><span>售價範圍 · 萬港元</span><strong id="stat-price">—</strong></div><div><span>實用面積 · 平方呎</span><strong id="stat-area">—</strong></div></div>
+        <p id="verification-note" class="notice">樂嶺軒餘下單位按已選彙編推算，尚未取得完整官方未售表；表內會逐伙標示。</p>
+        <div class="table-tools"><label class="search-label" for="query"><span class="sr-only">搜尋屋苑、座數或單位</span><input id="query" type="search" placeholder="搜尋屋苑、座數或單位…"></label><label class="sort-label" for="sort">排序<select id="sort"><option value="price-asc">售價：由低至高</option><option value="price-desc">售價：由高至低</option><option value="sqft-desc">面積：由大至小</option><option value="sqft-asc">面積：由小至大</option><option value="floor-desc">樓層：由高至低</option><option value="floor-asc">樓層：由低至高</option><option value="estate-asc">屋苑名稱</option></select></label></div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="單位比較表，可左右捲動"><table><caption class="sr-only">符合篩選條件的剩餘單位</caption><thead><tr><th scope="col">屋苑／座數</th><th scope="col">樓層／單位</th><th scope="col" class="numeric">實用面積</th><th scope="col" class="numeric">售價（港元）</th><th scope="col">核實狀態</th></tr></thead><tbody id="flat-rows"></tbody></table></div>
+        <div id="empty" class="empty" hidden><strong>暫時沒有符合條件的單位</strong><p>試試提高預算、放寬面積或樓層，或按「重設」重新選擇。</p><button id="empty-reset" class="outline-button" type="button">重設篩選</button></div>
+        <div class="pagination"><span id="page-info"></span><div><button id="previous" class="outline-button" type="button" disabled>← 上一頁</button><button id="next" class="outline-button" type="button" disabled>下一頁 →</button></div></div>
+      </section>
+    </div>
+    <section id="sources" class="sources"><h2>資料有據，選擇更安心。</h2><p>這是一個民間整理的選樓參考工具。售價採用官方價單，未加印花稅及交易費用；實際可選單位以售樓處確認為準。</p><details><summary>查看官方來源及核對說明</summary><div id="source-list"></div><p>房委會八個屋苑及灝然以官方同日「未售」表逐伙核對。樂嶺軒按特設銷售安排300伙，扣除彙編列出的已選272伙；其中224伙在官方成交冊有記錄，另外48伙未能獨立確認。</p><p id="snapshot-note"></p><a href="https://github.com/herman925/wangfuk-court/blob/main/AGENTS.md">資料更新方法 ↗</a></details></section>
+  </main>
+  <footer><span>宏福苑選樓參考</span><span>公開資料整理 · 無需登入 · 可下載比較</span></footer>
+  <noscript><p class="error">此工具需要 JavaScript。你亦可到 GitHub 下載資料快照作離線比較。</p></noscript>
+</body>
+</html>

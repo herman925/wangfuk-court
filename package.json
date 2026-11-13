@@ -1,0 +1,6 @@
+{
+  "name": "wangfuk-court",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test", "check": "node --check docs/app.js && node --check docs/model.js && node --test" }
+}

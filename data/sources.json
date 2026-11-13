@@ -1,0 +1,145 @@
+{
+  "districts": {
+    "盛緻苑": "九龍灣",
+    "匯熙苑": "錦田",
+    "裕豐苑": "東涌",
+    "朗風苑": "屏山",
+    "啟陽苑": "啟德",
+    "影輝苑": "將軍澳",
+    "欣雅苑": "大埔",
+    "曉雅苑": "大埔",
+    "樂嶺軒": "粉嶺",
+    "灝然": "觀塘"
+  },
+  "statusSources": [
+    {
+      "estate": "盛緻苑",
+      "file": "status-shing-chi-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-a-text.pdf"
+    },
+    {
+      "estate": "盛緻苑",
+      "file": "status-shing-chi-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-b-text.pdf"
+    },
+    {
+      "estate": "匯熙苑",
+      "file": "status-wui-hei-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-a-text.pdf"
+    },
+    {
+      "estate": "匯熙苑",
+      "file": "status-wui-hei-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-b-text.pdf"
+    },
+    {
+      "estate": "裕豐苑",
+      "file": "status-yu-fung-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-a-text.pdf"
+    },
+    {
+      "estate": "裕豐苑",
+      "file": "status-yu-fung-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-b-text.pdf"
+    },
+    {
+      "estate": "裕豐苑",
+      "file": "status-yu-fung-c-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-c-text.pdf"
+    },
+    {
+      "estate": "裕豐苑",
+      "file": "status-yu-fung-d-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-d-text.pdf"
+    },
+    {
+      "estate": "朗風苑",
+      "file": "status-long-fung-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-a-text.pdf"
+    },
+    {
+      "estate": "朗風苑",
+      "file": "status-long-fung-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-b-text.pdf"
+    },
+    {
+      "estate": "朗風苑",
+      "file": "status-long-fung-c-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-c-text.pdf"
+    },
+    {
+      "estate": "朗風苑",
+      "file": "status-long-fung-d-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-d-text.pdf"
+    },
+    {
+      "estate": "啟陽苑",
+      "file": "status-kai-yeung-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-a-text.pdf"
+    },
+    {
+      "estate": "啟陽苑",
+      "file": "status-kai-yeung-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-b-text.pdf"
+    },
+    {
+      "estate": "影輝苑",
+      "file": "status-ying-fai-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-a-text.pdf"
+    },
+    {
+      "estate": "影輝苑",
+      "file": "status-ying-fai-b-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-b-text.pdf"
+    },
+    {
+      "estate": "欣雅苑",
+      "file": "status-yan-nga-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yan-nga-a-text.pdf"
+    },
+    {
+      "estate": "曉雅苑",
+      "file": "status-hiu-nga-a-text.pdf",
+      "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-hiu-nga-a-text.pdf"
+    },
+    {
+      "estate": "灝然",
+      "file": "status-hemma-sapphire-text.pdf",
+      "url": "https://hemmasapphire.hkhs.com/download/newest_sales_phase1/status-hemma-sapphire-text.pdf"
+    }
+  ],
+  "links": [
+    {
+      "label": "房屋局：全部10個項目及供選數目",
+      "url": "https://www.hb.gov.hk/wfc/tc/special-sales-exercise/index.html"
+    },
+    {
+      "label": "房委會：特設銷售計劃及各屋苑銷售情況",
+      "url": "https://hos.housingauthority.gov.hk/mini-site/ssewfc/tc/index.html"
+    },
+    {
+      "label": "房委會：特設銷售計劃價單",
+      "url": "https://hos.housingauthority.gov.hk/mini-site/hos2025/common/pdf/Price-HOS-SSE.pdf"
+    },
+    {
+      "label": "灝然：官方銷售情況",
+      "url": "https://hemmasapphire.hkhs.com/download/newest_sales_phase1/status-hemma-sapphire-text.pdf"
+    },
+    {
+      "label": "灝然：官方價單",
+      "url": "https://hemmasapphire.hkhs.com/download/pricelist/Hemma%20Sapphire_PL_0820.pdf"
+    },
+    {
+      "label": "樂嶺軒：特設銷售安排第3號（300伙）",
+      "url": "https://sierraterrace.hkhs.com/uploads/Sierra-Terrace---SA3_20260922.pdf"
+    },
+    {
+      "label": "樂嶺軒：價單第1C號",
+      "url": "https://sierraterrace.hkhs.com/uploads/PWR-PL1C_20260820.pdf"
+    },
+    {
+      "label": "樂嶺軒：11月12日官方成交紀錄冊",
+      "url": "https://sierraterrace.hkhs.com/uploads/Sierra-Terrace_ROT_20261112.pdf"
+    }
+  ]
+}

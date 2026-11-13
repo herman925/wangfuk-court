@@ -1,0 +1,154 @@
+[
+  {
+    "estate": "盛緻苑",
+    "file": "status-shing-chi-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 210,
+    "sha256": "59976d25347929cec88b42d9a0fda3f4073a4ad62108e65eab48f47617d76857"
+  },
+  {
+    "estate": "盛緻苑",
+    "file": "status-shing-chi-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 158,
+    "sha256": "3cd34f00848d46787483cccc4b0e5805876c64eafb625281012e10afe34e9c20"
+  },
+  {
+    "estate": "匯熙苑",
+    "file": "status-wui-hei-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 45,
+    "sha256": "0e5a5474a538b5a06b0176b98eef74b1d8b38efb546b478e48edd289ecda0897"
+  },
+  {
+    "estate": "匯熙苑",
+    "file": "status-wui-hei-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 57,
+    "sha256": "325ca41c31ce3eb16c764d77c195fbf60546a677cd81d5e5166bc623a2e83179"
+  },
+  {
+    "estate": "裕豐苑",
+    "file": "status-yu-fung-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 10,
+    "sha256": "cb77e04b92a066257a0b563ade794c6ec0342eadb2e4b21447fdd5cabffa6aa4"
+  },
+  {
+    "estate": "裕豐苑",
+    "file": "status-yu-fung-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 36,
+    "sha256": "7ae250ab1ab63b22fe73494aa8d644daebd788b723a13dd0704f43ab29e5ceda"
+  },
+  {
+    "estate": "裕豐苑",
+    "file": "status-yu-fung-c-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-c-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 45,
+    "sha256": "2ba7a0c07d37a7166ebe53df1abadb47aa9c39105fa12ebf14e5405c1b0e91f6"
+  },
+  {
+    "estate": "裕豐苑",
+    "file": "status-yu-fung-d-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-d-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 28,
+    "sha256": "9879ff793f9e392cca3053d890dc2aeff44cc8e271db63ca2bccf5f643207d2a"
+  },
+  {
+    "estate": "朗風苑",
+    "file": "status-long-fung-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 37,
+    "sha256": "dc00e2485ad0d58a5833a8bd9a99150491973c4381e4b0c4ce432c3c2d7e15c6"
+  },
+  {
+    "estate": "朗風苑",
+    "file": "status-long-fung-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 34,
+    "sha256": "84f28a2e473d901162356089ddd93d40f2a19e66de8101d8f98c84048bac40b0"
+  },
+  {
+    "estate": "朗風苑",
+    "file": "status-long-fung-c-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-c-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 25,
+    "sha256": "80e5f8c0469c6b348cdadc9030e28b88794ddfff5e6c5ea9692646b77ae5703a"
+  },
+  {
+    "estate": "朗風苑",
+    "file": "status-long-fung-d-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-d-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 31,
+    "sha256": "9fe685cecb925a50dda269baf4142345d076fe89521461cc86bcff624856f13b"
+  },
+  {
+    "estate": "啟陽苑",
+    "file": "status-kai-yeung-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 130,
+    "sha256": "2b1c2881d247e7336bcad6526f5f0b719e05efa54f9c2092c0c337674b276abc"
+  },
+  {
+    "estate": "啟陽苑",
+    "file": "status-kai-yeung-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 184,
+    "sha256": "b664e82f9cb9bbe747f601b903200f8c311b414188c54995927183ede3ab47d5"
+  },
+  {
+    "estate": "影輝苑",
+    "file": "status-ying-fai-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 102,
+    "sha256": "85ff110d85c3ada018b66a87874bb6b81c0f151b3fea492e5b76503b2c3e64b4"
+  },
+  {
+    "estate": "影輝苑",
+    "file": "status-ying-fai-b-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-b-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 97,
+    "sha256": "f1c73df2ab706f3e74075ba5fb333997fa76cf9553d6c112b594989ad8c4a4d3"
+  },
+  {
+    "estate": "欣雅苑",
+    "file": "status-yan-nga-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yan-nga-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 759,
+    "sha256": "ff3b0238acf3fa6e6769f6c4faac0601ab33aaaa7b679af7d40cca20f0efc14e"
+  },
+  {
+    "estate": "曉雅苑",
+    "file": "status-hiu-nga-a-text.pdf",
+    "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-hiu-nga-a-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 583,
+    "sha256": "e7dffdf538b31b91a69e19d80d12993ce3d5cbc08583cfde9f0a95a5da567086"
+  },
+  {
+    "estate": "灝然",
+    "file": "status-hemma-sapphire-text.pdf",
+    "url": "https://hemmasapphire.hkhs.com/download/newest_sales_phase1/status-hemma-sapphire-text.pdf",
+    "asOf": "2026-11-12",
+    "remaining": 526,
+    "sha256": "3caa4ff8e89286b246c588e38859650731e05fb0d41d87889507819caec6bbe7"
+  }
+]
