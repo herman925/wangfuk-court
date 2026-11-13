@@ -1,5 +1,5 @@
-import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-clean-list';
-import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-clean-list';
+import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-drawers';
+import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-drawers';
 
 const $ = id => document.getElementById(id);
 const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'facing', 'minWinterSun', 'minSky', 'minWater', 'wishlistOnly', 'query', 'sort'];
@@ -8,7 +8,17 @@ const money = price => (price / 10000).toLocaleString('zh-HK', { maximumFraction
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 let snapshot, filtered = [], page = 1;
 let wishlist = new Set(), storageAvailable = true;
+let toastTimer;
 const pageSize = 50;
+
+function showToast(message) {
+  const toast = $('wishlist-feedback');
+  clearTimeout(toastTimer);
+  (document.querySelector('dialog:modal') || document.body).append(toast);
+  toast.textContent = message;
+  toast.classList.add('is-visible');
+  toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 4000);
+}
 
 function filters() {
   return { ...Object.fromEntries(ids.map(id => [id, $(id).type === 'checkbox' ? $(id).checked : $(id).value])), wishlistIds: wishlist };
@@ -54,6 +64,9 @@ function renderWishlist() {
   const rows = [...wishlist].map(id => byId.get(id)).filter(Boolean);
   const text = wishlistText(rows);
   $('wishlist-count').textContent = `${integer.format(rows.length)}伙`;
+  $('mobile-wishlist-count').textContent = integer.format(rows.length);
+  $('wishlist-drawer-count').textContent = `${integer.format(rows.length)}伙收藏`;
+  $('view-wishlist').disabled = !rows.length;
   $('wishlist-share').value = text;
   $('copy-wishlist').disabled = !rows.length;
   // shortcut: long WhatsApp hand-off URLs vary by browser; use the complete copyable text above 8,000 encoded characters.
@@ -73,7 +86,7 @@ function setupWishlist() {
     const added = !wishlist.has(id);
     if (added) wishlist.add(id); else wishlist.delete(id);
     saveWishlist(); render();
-    $('wishlist-feedback').textContent = added ? '已納入心許之所，可與家人分享這份心意。' : '已從心許之所移除。';
+    showToast(added ? '已納入心許之所，可與家人分享這份心意。' : '已從心許之所移除。');
     $('results-heading').tabIndex = -1;
     (document.querySelector(`[data-wishlist-id="${CSS.escape(id)}"]`) || $('results-heading')).focus({ preventScroll: true });
   });
@@ -83,7 +96,7 @@ function setupWishlist() {
     if (!additions.length) return;
     additions.forEach(id => wishlist.add(id));
     saveWishlist(); render();
-    $('wishlist-feedback').textContent = `已加入 ${additions.length} 伙心許之所，原有收藏已保留。`;
+    showToast(`已加入 ${additions.length} 伙心許之所，原有收藏已保留。`);
   });
   $('copy-wishlist').addEventListener('click', async () => {
     try {
@@ -129,7 +142,7 @@ function render() {
   $('results-heading').textContent = f.wishlistOnly ? `${estate ? estate.name + ' · ' : ''}心許之所` : estate ? estate.name : '全部屋苑';
   $('estate-note').textContent = estate ? `${estate.district} · 特設供選 ${estate.initial} 伙 · 未揀選 ${estate.available} 伙` : `10個項目 · 特設供選範圍 ${integer.format(snapshot.initialCount)} 伙`;
   $('result-count').textContent = `找到 ${integer.format(filtered.length)} 伙符合條件的單位`;
-  $('mobile-count').textContent = `${integer.format(filtered.length)}伙`;
+  $('mobile-count').textContent = integer.format(filtered.length);
   $('apply-filters').textContent = `顯示 ${integer.format(filtered.length)} 伙結果`;
   $('status-counts').innerHTML = Object.entries(STATUS_LABELS).map(([state, label]) => `<span class="status ${state}">${label} ${integer.format(filtered.filter(row => row.status === state).length)} 伙</span>`).join('');
   $('analysis-coverage').textContent = `目前篩選結果中，${integer.format(filtered.filter(row => row.lightview).length)} 伙有可配對的 Lightview 日照及景觀模擬；缺少或面積不符的資料不套用。`;
@@ -215,9 +228,10 @@ async function init() {
 }
 
 const drawer = $('filter-drawer');
+const wishlistDrawer = $('wishlist-drawer');
 const mobile = window.matchMedia('(max-width: 650px)');
 function releaseDrawer() {
-  document.body.classList.remove('drawer-open');
+  document.body.classList.toggle('drawer-open', Boolean(document.querySelector('dialog:modal')));
   $('open-filters').setAttribute('aria-expanded', 'false');
 }
 function closeDrawer() {
@@ -226,6 +240,7 @@ function closeDrawer() {
 }
 function syncDrawer() {
   closeDrawer();
+  closeWishlist();
   drawer.setAttribute('role', mobile.matches ? 'dialog' : 'region');
   if (!mobile.matches) drawer.show();
 }
@@ -233,6 +248,7 @@ drawer.addEventListener('close', () => { if (!drawer.matches(':modal')) releaseD
 drawer.addEventListener('cancel', event => { event.preventDefault(); closeDrawer(); });
 $('open-filters').addEventListener('click', () => {
   if (!mobile.matches || drawer.open) return;
+  closeWishlist();
   drawer.showModal();
   document.body.classList.add('drawer-open');
   $('open-filters').setAttribute('aria-expanded', 'true');
@@ -243,6 +259,38 @@ drawer.addEventListener('click', event => {
   if (!mobile.matches || event.target !== drawer) return;
   const rect = drawer.getBoundingClientRect();
   if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDrawer();
+});
+
+function releaseWishlist() {
+  document.body.classList.toggle('drawer-open', Boolean(document.querySelector('dialog:modal')));
+  ['open-wishlist', 'open-wishlist-mobile'].forEach(id => $(id).setAttribute('aria-expanded', 'false'));
+  if (wishlistDrawer.contains($('wishlist-feedback'))) document.body.append($('wishlist-feedback'));
+}
+function closeWishlist() {
+  wishlistDrawer.close();
+  releaseWishlist();
+}
+['open-wishlist', 'open-wishlist-mobile'].forEach(id => $(id).addEventListener('click', () => {
+  if (wishlistDrawer.open) return;
+  if (drawer.matches(':modal')) closeDrawer();
+  wishlistDrawer.showModal();
+  document.body.classList.add('drawer-open');
+  ['open-wishlist', 'open-wishlist-mobile'].forEach(trigger => $(trigger).setAttribute('aria-expanded', 'true'));
+}));
+$('close-wishlist').addEventListener('click', closeWishlist);
+wishlistDrawer.addEventListener('close', () => { if (!wishlistDrawer.open) releaseWishlist(); });
+wishlistDrawer.addEventListener('cancel', event => { event.preventDefault(); closeWishlist(); });
+wishlistDrawer.addEventListener('click', event => {
+  if (event.target !== wishlistDrawer) return;
+  const rect = wishlistDrawer.getBoundingClientRect();
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeWishlist();
+});
+$('view-wishlist').addEventListener('click', () => {
+  reset();
+  $('wishlistOnly').checked = true;
+  render();
+  closeWishlist();
+  $('results').scrollIntoView({ block: 'start' });
 });
 mobile.addEventListener('change', syncDrawer);
 syncDrawer();

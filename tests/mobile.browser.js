@@ -32,7 +32,20 @@
   check(el('result-count').textContent.includes(`${snapshot.initialCount.toLocaleString('zh-HK')} 伙`), 'Reset should restore entire special-exercise inventory');
   el('close-filters').click(); await tick();
   check(!drawer.open && opener.getAttribute('aria-expanded') === 'false', 'Close must reset trigger state');
+  const savedOpener = el('open-wishlist-mobile'), savedDrawer = el('wishlist-drawer');
+  const leftButton = savedOpener.getBoundingClientRect(), rightButton = opener.getBoundingClientRect();
+  check(leftButton.right <= rightButton.left, 'Bottom buttons must not overlap');
+  savedOpener.focus(); savedOpener.click();
+  check(savedDrawer.matches(':modal'), 'Wishlist drawer must be modal');
+  check(savedDrawer.contains(document.activeElement), 'Wishlist must receive focus');
+  el('query').focus();
+  check(savedDrawer.contains(document.activeElement), 'Wishlist must isolate background focus');
+  check(document.querySelectorAll('dialog:modal').length === 1, 'Only one drawer may be modal');
+  el('close-wishlist').click(); await tick();
+  check(!savedDrawer.open && !document.body.classList.contains('drawer-open'), 'Wishlist must close and unlock');
+  check(document.activeElement === savedOpener, 'Wishlist focus must return to its trigger');
+  check(savedOpener.getAttribute('aria-expanded') === 'false', 'Wishlist trigger must reset');
   check(document.documentElement.scrollWidth <= innerWidth, 'Mobile page must not overflow horizontally');
   check(document.querySelector('table').scrollWidth <= innerWidth, 'Mobile flats must fit viewport');
-  return 'Mobile drawer, focus isolation/return, filtering, empty state, reset and layout passed';
+  return 'Both mobile drawers, focus isolation/return, filtering, empty state, reset and layout passed';
 })()
