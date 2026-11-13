@@ -1,7 +1,7 @@
-import { selectFlats, toCsv } from './model.js';
+import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-status';
 
 const $ = id => document.getElementById(id);
-const ids = ['estate', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'verified', 'query', 'sort'];
+const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'query', 'sort'];
 const integer = new Intl.NumberFormat('zh-HK');
 const money = price => (price / 10000).toLocaleString('zh-HK', { maximumFractionDigits: 2 });
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -9,7 +9,7 @@ let snapshot, filtered = [], page = 1;
 const pageSize = 50;
 
 function filters() {
-  return Object.fromEntries(ids.map(id => [id, id === 'verified' ? $(id).checked : $(id).value]));
+  return Object.fromEntries(ids.map(id => [id, $(id).value]));
 }
 
 function updateBlocks() {
@@ -25,7 +25,7 @@ function render() {
   filtered = selectFlats(snapshot.flats, f);
   const estate = snapshot.estates.find(e => e.name === f.estate);
   $('results-heading').textContent = estate ? estate.name : '全部屋苑';
-  $('estate-note').textContent = estate ? `${estate.district} · 原先供選 ${estate.initial} 伙 · 本次快照餘 ${estate.remaining} 伙` : `10個屋苑 · 原先供選 ${integer.format(snapshot.initialCount)} 伙`;
+  $('estate-note').textContent = estate ? `${estate.district} · 特設供選 ${estate.initial} 伙 · 未揀選 ${estate.available} 伙` : `10個項目 · 特設供選範圍 ${integer.format(snapshot.initialCount)} 伙`;
   $('result-count').textContent = `找到 ${integer.format(filtered.length)} 伙符合條件的單位`;
   $('stat-count').textContent = integer.format(filtered.length);
   $('mobile-count').textContent = `${integer.format(filtered.length)}伙`;
@@ -33,11 +33,14 @@ function render() {
   const prices = filtered.map(row => row.price), areas = filtered.map(row => row.sqft);
   $('stat-price').textContent = prices.length ? `${money(Math.min(...prices))}–${money(Math.max(...prices))}` : '—';
   $('stat-area').textContent = areas.length ? `${Math.min(...areas)}–${Math.max(...areas)}` : '—';
-  $('verification-note').hidden = !filtered.some(row => row.verification !== 'official');
+  $('verification-note').hidden = !filtered.some(row => row.source === 'user-pdf');
+  const sierra = snapshot.flats.find(row => row.source === 'user-pdf');
+  $('verification-note').textContent = sierra ? `樂嶺軒狀態採用使用者提供的 ${sierra.asOf} 已選PDF，並非官方完整選樓表；只計特設計劃供選的300伙。` : '';
+  $('status-counts').innerHTML = Object.entries(STATUS_LABELS).map(([state, label]) => `<span class="status ${state}">${label} ${integer.format(filtered.filter(row => row.status === state).length)} 伙</span>`).join('');
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   page = Math.min(page, pages);
   const start = (page - 1) * pageSize;
-  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr role="row"><td role="cell"><strong>${escape(row.estate)}</strong><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small></td><td role="cell">${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td role="cell" class="numeric" data-label="實用面積"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td role="cell" class="numeric" data-label="售價（港元）"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td role="cell"><span class="status ${row.verification === 'official' ? '' : 'estimated'}">${row.verification === 'official' ? '官方已核對' : '彙編推算'}</span></td></tr>`).join('');
+  $('flat-rows').innerHTML = filtered.slice(start, start + pageSize).map(row => `<tr role="row"><td role="cell"><strong>${escape(row.estate)}</strong><small>${row.block === '-' ? '不分座' : `${escape(row.block)}座`}</small></td><td role="cell">${row.floor}樓 <strong>${escape(row.unit)}室</strong></td><td role="cell" class="numeric" data-label="實用面積"><strong>${row.sqft}</strong> 呎<small>${row.sqm} 平方米</small></td><td role="cell" class="numeric" data-label="價單售價（港元）"><strong>$${integer.format(row.price)}</strong><small>約 ${money(row.price)} 萬</small></td><td role="cell"><span class="status ${row.status}">${STATUS_LABELS[row.status]}</span><small>${row.source === 'official' ? `官方${escape(row.sourceStatus)}` : '使用者提供PDF'} · ${escape(row.asOf)}</small></td></tr>`).join('');
   $('empty').hidden = filtered.length !== 0;
   $('page-info').textContent = filtered.length ? `${start + 1}–${Math.min(start + pageSize, filtered.length)} / ${integer.format(filtered.length)} 伙 · 第 ${page} / ${pages} 頁` : '0 伙';
   $('previous').disabled = page === 1;
@@ -46,7 +49,7 @@ function render() {
 }
 
 function reset() {
-  ids.forEach(id => { if (id === 'verified') $(id).checked = false; else $(id).value = id === 'sort' ? 'price-asc' : ''; });
+  ids.forEach(id => { $(id).value = id === 'sort' ? 'price-asc' : ''; });
   updateBlocks(); page = 1; render();
 }
 
@@ -55,9 +58,9 @@ async function init() {
     const response = await fetch('./data/snapshot.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     snapshot = await response.json();
-    if (!Array.isArray(snapshot.flats) || !Array.isArray(snapshot.estates) || !snapshot.flats.every(f => typeof f.price === 'number' && typeof f.sqft === 'number' && typeof f.floor === 'number')) throw new Error('資料格式不正確');
+    if (snapshot.schemaVersion !== 2 || !Array.isArray(snapshot.flats) || !Array.isArray(snapshot.estates) || !snapshot.flats.every(f => f.status in STATUS_LABELS && typeof f.price === 'number' && typeof f.sqft === 'number' && typeof f.floor === 'number')) throw new Error('資料格式不正確');
     $('snapshot-date').textContent = snapshot.asOf;
-    snapshot.estates.forEach(e => $('estate').add(new Option(`${e.name} · ${e.district}（${e.remaining}伙）`, e.name)));
+    snapshot.estates.forEach(e => $('estate').add(new Option(`${e.name} · ${e.district}（供選${e.initial}伙）`, e.name)));
     $('source-list').innerHTML = `<ul>${snapshot.sources.map(s => `<li><a href="${escape(s.url)}" target="_blank" rel="noopener noreferrer">${escape(s.label)} ↗</a></li>`).join('')}</ul>`;
     $('snapshot-note').textContent = snapshot.note;
     updateBlocks();
@@ -67,7 +70,6 @@ async function init() {
     }));
     $('reset').addEventListener('click', reset);
     $('empty-reset').addEventListener('click', reset);
-    document.querySelectorAll('[data-area]').forEach(button => button.addEventListener('click', () => { $('minArea').value = button.dataset.area; $('maxArea').value = ''; page = 1; render(); }));
     $('previous').addEventListener('click', () => { page--; render(); });
     $('next').addEventListener('click', () => { page++; render(); });
     $('download').addEventListener('click', () => {
