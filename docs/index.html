@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261113-drawers-2">
-  <script type="module" src="./app.js?v=20261113-drawers"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261116-refresh">
+  <script type="module" src="./app.js?v=20261116-refresh"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -52,6 +52,8 @@
     <section id="sources" class="sources"><h2>把遠方的想望，安放在有據的選擇裡。</h2><p>這是一個民間整理的選樓參考工具，只列宏福苑特設計劃的供選範圍。售價採用官方價單，未加印花稅及交易費用；實際供應以售樓處確認為準。</p>
       <p id="analysis-coverage" class="analysis-coverage" role="status"></p>
       <p id="refresh-note" class="analysis-coverage">自動檢查：每日香港時間00:00；資料日期以來源公布為準。</p>
+      <p class="refresh-actions"><a class="outline-button" href="https://github.com/herman925/wangfuk-court/actions/workflows/publish.yml" target="_blank" rel="noopener noreferrer" aria-describedby="refresh-help">更新網站資料 ↗</a></p>
+      <p id="refresh-help" class="analysis-coverage">管理員更新：登入有此倉庫寫入權限的 GitHub 帳戶，在新頁按「Run workflow」，選擇 main 再執行。完成抓取及驗證後會自動發布；可在該頁查看進度，完成後重新整理本網站。樂嶺軒保留使用者 PDF 基線；檢查時間不等於來源公布日期。</p>
       <details><summary>查看來源及核對說明</summary><div id="source-list"></div><p>其他九個項目以官方「未售／已選／已售」表逐伙核對；已選及已售統一顯示為紅色「已揀選」。樂嶺軒按使用者提供的已選PDF判定，並在表內標示來源。官方成交冊僅用作輔助核對，不用作推算未揀選單位。</p><p id="snapshot-note"></p><a href="https://github.com/herman925/wangfuk-court/blob/main/AGENTS.md">資料更新方法 ↗</a></details></section>
   </main>
   <section class="lightview-credit"><p>日照及景觀分析來源：<a href="https://lightview.app/" target="_blank" rel="noopener noreferrer">光景 Lightview · JOL Studio Limited ↗</a>。涵蓋部分啟陽苑、裕豐苑及灝然單位；模擬數據與揀選狀態分開管理。<a href="https://github.com/herman925/wangfuk-court/blob/main/research/lightview-investigation.md">分析方法及涵蓋限制 ↗</a></p></section>
