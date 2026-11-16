@@ -1,0 +1,13 @@
+{
+  "name": "wangfuk-court-refresh",
+  "main": "worker.js",
+  "account_id": "c3492e080bf5e56e62deb6aea2fa3623",
+  "compatibility_date": "2026-11-16",
+  "workers_dev": true,
+  "preview_urls": false,
+  "durable_objects": {
+    "bindings": [{ "name": "REFRESH_GATE", "class_name": "RefreshGate" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RefreshGate"] }],
+  "observability": { "enabled": false }
+}

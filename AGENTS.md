@@ -121,6 +121,16 @@ gh run list --workflow publish.yml
 
 Lightview拒絕覆蓋較新的模型日期或丟失既有配對的快照；此類變動須人工核對。內容沒有變更時保留`capturedAt`，成功檢查時間另記於`update-status.json`。官方混合日期及其餘驗證規則維持有效，不能為自動化而繞過。
 
+### 公開更新按鈕後端
+
+`backend/` 是獨立 Cloudflare Worker，前端仍由 GitHub Pages 發布。`docs/refresh.js` 的按鈕以 JSON POST 至固定 `/refresh`；只接受本站 Origin，任何訪客毋須登入。Origin／CORS 是瀏覽器限制，並非身分驗證；真正的執行上限由單一 SQLite Durable Object 以同步儲存，在網絡請求前保留全站共用的30分鐘時段。重載網頁、跨裝置及並行請求不能繞過；連線結果不明或GitHub拒絕時亦保留冷卻，避免重複執行。
+
+後端固定只觸發 `herman925/wangfuk-court` 的 `publish.yml`、`main`，不讀取請求內容作目標或參數。已有排程／手動資料更新執行中時回傳該次紀錄；單純push發布不會吞掉資料更新要求。成功回應只表示已接受要求／已有流程，並非資料已發布；仍須通過原有驗證及部署。
+
+GitHub專用fine-grained token只選此倉庫，僅授予Actions讀寫及必需的Metadata唯讀，以Cloudflare加密secret `GITHUB_TOKEN`保存。不得使用本機`gh`的廣泛權限OAuth token、不得把token放進前端／Git／日誌。token缺少或失效時必須拒絕更新並顯示失敗，原有每日排程不受影響。到期前須輪換secret。
+
+部署：`npx --yes wrangler@4.162.0 deploy --config backend/wrangler.jsonc`。只更新網站HTML不會部署Worker；更動Worker需獨立測試及部署。`npm run check`包含後端並行、冷卻、來源限制、固定目標、失敗不洩漏及前端失敗提示；另以Wrangler本機執行驗證Durable Object儲存。不要提交`.dev.vars*`及`.wrangler/`。
+
 ### 手動抓取及重播
 
 所有Python工具先啟用專案虛擬環境。首次：

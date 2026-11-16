@@ -1,5 +1,6 @@
 import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-drawers';
 import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-drawers';
+import { mountRefresh } from './refresh.js?v=20261116-public-refresh';
 
 const $ = id => document.getElementById(id);
 const ids = ['estate', 'status', 'block', 'minArea', 'maxArea', 'maxPrice', 'minFloor', 'maxFloor', 'facing', 'minWinterSun', 'minSky', 'minWater', 'wishlistOnly', 'query', 'sort'];
@@ -294,4 +295,5 @@ $('view-wishlist').addEventListener('click', () => {
 });
 mobile.addEventListener('change', syncDrawer);
 syncDrawer();
+mountRefresh($('refresh-data'), $('refresh-feedback'), $('refresh-progress'));
 init();

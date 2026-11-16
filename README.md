@@ -37,7 +37,9 @@ python -m unittest discover -s tests -p 'test_*.py'
 npm run check
 ```
 
-現已由GitHub Actions每日香港時間 **00:00** 自動抓取官方揀選狀態及Lightview，驗證後更新網站。網站「資料來源」的「更新網站資料」按鈕會開啟 [Actions](https://github.com/herman925/wangfuk-court/actions/workflows/publish.yml)：登入有倉庫寫入權限的GitHub帳戶，按「Run workflow」，選擇 `main` 再執行，即可毋須CLI更新資料。於Actions查看進度，完成後重新整理網站；按鈕本身只開啟更新頁面，不會立即觸發更新。來源失敗時保留該來源上次有效快照，其他來源繼續；頁面顯示最後檢查結果，表內仍保留來源公布日期。排程可能受GitHub延遲，並非實時資料。
+現已由GitHub Actions每日香港時間 **00:00** 自動抓取官方揀選狀態及Lightview，驗證後更新網站。網站「資料來源」的「更新網站資料」按鈕透過獨立Cloudflare Worker直接提出更新要求，任何訪客毋須登入或使用CLI。全站共用30分鐘冷卻時間；已有資料更新執行中時提供該次紀錄，避免重複觸發。按鈕成功提示只代表要求已接受，完成後請重新整理網站；可按「查看執行紀錄」查看GitHub進度。來源失敗時保留該來源上次有效快照，其他來源繼續；頁面顯示最後檢查結果，表內仍保留來源公布日期。排程可能受GitHub延遲，並非實時資料。
+
+後端設定及安全限制見[公開更新按鈕後端](AGENTS.md#公開更新按鈕後端)。首次啟用須在Cloudflare Worker設定加密secret `GITHUB_TOKEN`：GitHub fine-grained token只選 `wangfuk-court`，授予 **Actions: Read and write**（Metadata唯讀為必需）。前端不含憑證；沒有設定secret或憑證失效時顯示錯誤，不影響每日排程。不要以本機`gh`的帳戶token代替。Worker部署與GitHub Pages發布分開：`npx --yes wrangler@4.162.0 deploy --config backend/wrangler.jsonc`；可在Cloudflare控制台新增或輪換secret，token到期後須更新。
 
 樂嶺軒每日同步監察[官方銷售情況](https://sierraterrace.hkhs.com/sales-info/latest-sales-status/)及[成交紀錄冊](https://sierraterrace.hkhs.com/sales-info/register-of-transactions/)。2026-11-13查核仍沒有完整已揀選／未售表；成交冊只涵蓋特設供選範圍內224伙記錄，無法取代使用者PDF的272伙已選狀態。詳見 [來源調查](research/sierra-status-sources.md)。
 

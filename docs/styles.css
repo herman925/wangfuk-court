@@ -84,5 +84,5 @@ html{scroll-padding-top:120px}
 @keyframes wishlist-in{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.wishlist-tools{animation:none}.wishlist-toast{transition:none}}
 .sources .refresh-actions{margin-top:16px}
-.refresh-actions a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
-.refresh-actions a:hover{background:var(--wash)}
+.refresh-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.refresh-actions button{min-height:44px}
