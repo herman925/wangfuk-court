@@ -8,6 +8,11 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    from tools.netfetch import fetch_bytes
+except ImportError:  # executed directly as `python tools/import_lightview.py`
+    from netfetch import fetch_bytes
+
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS = {'啟陽苑': 'kai-yeung-court', '裕豐苑': 'yu-fung-court', '灝然': 'hemma-sapphire'}
 
@@ -88,8 +93,7 @@ def run(source_dir: Path | None) -> None:
         if source_dir:
             raw = (source_dir / (slug + '.html')).read_bytes()
         else:
-            with urllib.request.urlopen(url, timeout=30) as response:
-                raw = response.read()
+            raw = fetch_bytes(urllib.request.Request(url), validate=lambda body: extract_bundle(body.decode('utf-8'), slug))
         bundle = extract_bundle(raw.decode('utf-8'), slug)
         (cache / (slug + '-bundle.json')).write_text(json.dumps(bundle, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
         project_rows = [f for f in inventory if f['estate'] == estate]

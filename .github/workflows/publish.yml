@@ -20,7 +20,7 @@ permissions:
 jobs:
   refresh-and-publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -34,13 +34,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: |
+      - name: Install tool dependencies
+        run: |
           python -m venv .venv
-          .venv/bin/pip install -r tools/requirements.txt
+          .venv/bin/pip install --disable-pip-version-check --retries 5 --timeout 60 -r tools/requirements.txt
+      # Source fetches retry transient failures inside tools/netfetch.py; step timeouts bound a source that stays down.
       - name: Refresh official selection statuses
         id: selection
         if: github.event_name != 'push'
         continue-on-error: true
+        timeout-minutes: 12
         run: |
           if ! .venv/bin/python tools/update_snapshot.py; then
             git restore -- docs/data/snapshot.json data/provenance.json
@@ -50,6 +53,7 @@ jobs:
         id: lightview
         if: github.event_name != 'push'
         continue-on-error: true
+        timeout-minutes: 8
         run: |
           if ! .venv/bin/python tools/import_lightview.py; then
             git restore -- docs/data/lightview.json data/lightview/provenance.json
@@ -59,6 +63,7 @@ jobs:
         id: sierra
         if: github.event_name != 'push'
         continue-on-error: true
+        timeout-minutes: 8
         run: |
           if ! .venv/bin/python tools/check_sierra.py; then
             git restore -- docs/data/sierra-audit.json
@@ -111,7 +116,17 @@ jobs:
           Why: Keep residents' comparison data aligned with published sources.
           Tests: Python suite, snapshot validation and npm run check passed.
           MSG
-            git push origin HEAD:main
+            for attempt in 1 2 3; do
+              git push origin HEAD:main && break
+              if [ "$attempt" -eq 3 ]; then
+                echo '::error::Could not push validated data to main after 3 attempts.'
+                exit 1
+              fi
+              echo "::warning::Push to main was rejected (attempt $attempt); rebasing the data commit onto the latest main and retrying."
+              git fetch origin main
+              git rebase origin/main
+              sleep $((attempt * 15))
+            done
           fi
       # GITHUB_TOKEN commits do not trigger another push workflow; deploy this checked snapshot here.
       - uses: actions/configure-pages@v5

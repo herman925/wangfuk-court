@@ -11,6 +11,11 @@ from pathlib import Path
 
 import pdfplumber
 
+try:
+    from tools.netfetch import fetch_bytes, require_pdf
+except ImportError:  # executed directly as `python tools/update_snapshot.py`
+    from netfetch import fetch_bytes, require_pdf
+
 ROOT = Path(__file__).resolve().parents[1]
 STATES = {'未售': 'available', '已選': 'picked', '已售': 'picked'}
 
@@ -49,13 +54,10 @@ def parse_status(text: str, estate: str) -> tuple[dict, str]:
 def read_source(source: dict, source_dir: Path | None) -> bytes:
     if source_dir:
         raw = (source_dir / source['file']).read_bytes()
-    else:
-        request = urllib.request.Request(source['url'], headers={'User-Agent': 'wangfuk-court public-data-check'})
-        with urllib.request.urlopen(request, timeout=30) as response:
-            raw = response.read()
-    if not raw.startswith(b'%PDF'):
-        raise ValueError(f"Not a PDF: {source['url']}")
-    return raw
+        require_pdf(raw, source['url'])
+        return raw
+    request = urllib.request.Request(source['url'], headers={'User-Agent': 'wangfuk-court public-data-check'})
+    return fetch_bytes(request, validate=lambda raw: require_pdf(raw, source['url']))
 
 
 def import_sierra_pdf(path: Path, inventory: list) -> dict:

@@ -11,6 +11,11 @@ from urllib.parse import urljoin, urlparse
 
 import pdfplumber
 
+try:
+    from tools.netfetch import fetch_bytes, require_pdf
+except ImportError:  # executed directly as `python tools/check_sierra.py`
+    from netfetch import fetch_bytes, require_pdf
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'https://sierraterrace.hkhs.com'
 HEADERS = {'Content-Type': 'application/json', 'Accept-Language': 'tc',
@@ -22,8 +27,7 @@ def list_documents(kind: str) -> list:
     body = json.dumps({'query': 'query($type:String!){listDocs(type:$type){date url title}}',
                        'variables': {'type': kind}}).encode()
     request = urllib.request.Request(BASE + '/api/', data=body, headers=HEADERS)
-    with urllib.request.urlopen(request, timeout=30) as response:
-        payload = json.load(response)
+    payload = json.loads(fetch_bytes(request, validate=json.loads))
     if payload.get('errors') or not isinstance(payload.get('data', {}).get('listDocs'), list):
         raise ValueError('Invalid Sierra document listing')
     docs = payload['data']['listDocs']
@@ -57,10 +61,7 @@ def run() -> None:
     if not registers:
         raise ValueError('No official Sierra transaction register found')
     latest = max(registers, key=lambda doc: doc['date'])
-    with urllib.request.urlopen(urllib.request.Request(latest['url'], headers=HEADERS), timeout=30) as response:
-        raw = response.read()
-    if not raw.startswith(b'%PDF'):
-        raise ValueError('Sierra register is not a PDF')
+    raw = fetch_bytes(urllib.request.Request(latest['url'], headers=HEADERS), validate=lambda body: require_pdf(body, latest['url']))
     with pdfplumber.open(io.BytesIO(raw)) as pdf:
         text = '\n'.join(page.extract_text() or '' for page in pdf.pages)
     inventory = json.loads((ROOT / 'data/inventory.json').read_text(encoding='utf-8'))
