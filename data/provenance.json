@@ -3,172 +3,172 @@
     "estate": "盛緻苑",
     "file": "status-shing-chi-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 340,
     "available": 207,
-    "sha256": "0b89a524a99a54df85c9baefa559b2756ebda50950a216487eadb64dbc382806"
+    "sha256": "5ccdcda66ee824f5913c6075df97cfe10131931d8c6dc99d80cad9ca9c8b3144"
   },
   {
     "estate": "盛緻苑",
     "file": "status-shing-chi-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-shing-chi-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 270,
     "available": 151,
-    "sha256": "17456a70ea4240335df05c81d87d444455a5bdcf44610fee0e4c11d413b78ad3"
+    "sha256": "0d8db0481afdb2238b374b6665e1e11184e407cdf88b729f1ed93d8ba479e48f"
   },
   {
     "estate": "匯熙苑",
     "file": "status-wui-hei-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 65,
     "available": 44,
-    "sha256": "ccaf1f45d3ef7f8f26167d58dc46d48f0b9dba3bb80c4a9ad645f2b350a5849a"
+    "sha256": "00e00376bf65988009ba113ff8eb0459864410f6cbcedab3a20b59826de94e66"
   },
   {
     "estate": "匯熙苑",
     "file": "status-wui-hei-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-wui-hei-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 75,
     "available": 56,
-    "sha256": "c9e361b020bc65244bca6467b8ed5a6727e4c8bda28a06cabc456a15b3dac49d"
+    "sha256": "ec8ffccad3884025b12338ab04cc37bad06591cdc3d30ab994a2f5092579abd8"
   },
   {
     "estate": "裕豐苑",
     "file": "status-yu-fung-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 13,
     "available": 10,
-    "sha256": "259e6cedb159d6a4bd2b6c9f519204a0aa2feadc6e039ec21da172fa899aef6e"
+    "sha256": "606531344e21f0a0323647ce523e1d59f47ec6997b76087a3cb922b90545b6f1"
   },
   {
     "estate": "裕豐苑",
     "file": "status-yu-fung-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 45,
     "available": 35,
-    "sha256": "52efe0fa48b1e97f0d80129130305bbf05209e842895e7395f32720236e42e0e"
+    "sha256": "e4156e25504ad5d6ccecebb0d86130c977d619863096365f6456515b4dbb1ae9"
   },
   {
     "estate": "裕豐苑",
     "file": "status-yu-fung-c-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-c-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 49,
     "available": 45,
-    "sha256": "e3b4b27ce8c80fee09b1fdd77ccfc31a7012d526a55aef11c1af64725531034c"
+    "sha256": "f4629c06f6ae8d9642643dbac9643c49c1486fb0b182144b0ffe5178a1bdd0a6"
   },
   {
     "estate": "裕豐苑",
     "file": "status-yu-fung-d-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yu-fung-d-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 33,
     "available": 28,
-    "sha256": "d3ac033358d05630a5cb457e03bda9292baac733ec7d275169cbdfd502db26b5"
+    "sha256": "f473ede8b2f6290b98b581d23207e07192f872f3801648f37df0c43814c923a7"
   },
   {
     "estate": "朗風苑",
     "file": "status-long-fung-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 39,
     "available": 37,
-    "sha256": "e810cf2ffecbbb2ea3046d6d6d4f44f24e580f716079327818970b41f0a32531"
+    "sha256": "09cc7b15475df3eb056c5628b027150952231bb4b35f540472b25fb11510c6ce"
   },
   {
     "estate": "朗風苑",
     "file": "status-long-fung-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 39,
     "available": 34,
-    "sha256": "39f3f79e0bc5bda1cfc7be73cfbcc3d03c2d10627d3ef4560c95fc09e7c93323"
+    "sha256": "81e0d9e6bda6e8e3267d20ae915f757904fa4d81fe91d1af383c27153266cc70"
   },
   {
     "estate": "朗風苑",
     "file": "status-long-fung-c-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-c-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 28,
     "available": 25,
-    "sha256": "c9c63c48b5bdb0bb820ae2145854694cd5c38c5a3c293215f887837e400beb88"
+    "sha256": "0aa054d5a681f9820eae6c7e521a3f0833630f97ebf1896ad19879234d057563"
   },
   {
     "estate": "朗風苑",
     "file": "status-long-fung-d-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-long-fung-d-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 34,
     "available": 31,
-    "sha256": "8e70d52a16ff1b913df47c665abec5cfce5743bf109c13c1eab749ec09187752"
+    "sha256": "7cfff428d6364ae0cb99323094d222f15f6394fdbe8acdd2f9435b5570097587"
   },
   {
     "estate": "啟陽苑",
     "file": "status-kai-yeung-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 278,
     "available": 123,
-    "sha256": "a92930c24d403b64b5082a7244b46e89862c975ca2e5a830d9ee4e73398e7d9b"
+    "sha256": "22f425716a15d08072ff646e05985525350a7ac2f3e9879f557b41089897ec31"
   },
   {
     "estate": "啟陽苑",
     "file": "status-kai-yeung-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-kai-yeung-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 472,
     "available": 171,
-    "sha256": "d9de06fd2d0f709e93c9704915b73222ed2fedec8e582e9b038e99a34abc0ea0"
+    "sha256": "1bc8963d64fc3f8daf79f3254c5e06615fe55b2c7c1b546732c39e2ca3b87b48"
   },
   {
     "estate": "影輝苑",
     "file": "status-ying-fai-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 115,
     "available": 102,
-    "sha256": "8abd4c20211406b0f9beac217457184e01793fa6957f4eefa5706575afa9f403"
+    "sha256": "efec8f2d2e5e1b1026b139a5dc7b538e0f3b15aef995876de212043af51101de"
   },
   {
     "estate": "影輝苑",
     "file": "status-ying-fai-b-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-ying-fai-b-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 105,
     "available": 97,
-    "sha256": "7da7ca5011e6d08bad9d7ead3d30f3b4157041424a460f8321551dd77621ed88"
+    "sha256": "716c3ddf56b4bb5e49860464997b6c6c447dc404272aeea8a5a03748a40c417e"
   },
   {
     "estate": "欣雅苑",
     "file": "status-yan-nga-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-yan-nga-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 920,
     "available": 739,
-    "sha256": "9239010ed4f9ded99264479f77c628c1bb596f2164cf56f4c37770e8d381534c"
+    "sha256": "dcfc5f5ae2558790c5034272c50630689f455a883b45965ad8431dd334d5a177"
   },
   {
     "estate": "曉雅苑",
     "file": "status-hiu-nga-a-text.pdf",
     "url": "https://www.housingauthority.gov.hk/mini-site/ssewfc/common/pdf/status/se1/status-hiu-nga-a-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 627,
-    "available": 566,
-    "sha256": "ac4cba7d7b913ad9480c63ceba60abe64fc9c3b4277b95d4e16a1b2dfe7bc7a2"
+    "available": 565,
+    "sha256": "1dadd7a951350023644b82ec85d2035452e008fa5ce6199ccbbd9b04adbc10c8"
   },
   {
     "estate": "灝然",
     "file": "status-hemma-sapphire-text.pdf",
     "url": "https://hemmasapphire.hkhs.com/download/newest_sales_phase1/status-hemma-sapphire-text.pdf",
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-20",
     "listed": 596,
     "available": 510,
-    "sha256": "c1a838cb98a781612f83684f808b41ae0194e8ad4d6bc3fed3391d5430c1dd02"
+    "sha256": "ef6755c9bfd8d146b65ab65da8d0a5b0604c742ccc27e41d694304c8dd618469"
   },
   {
     "estate": "樂嶺軒",
