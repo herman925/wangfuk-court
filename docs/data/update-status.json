@@ -1,20 +1,20 @@
 {
   "selection": {
-    "lastAttemptAt": "2026-11-24T02:43:55.796404+00:00",
+    "lastAttemptAt": "2026-11-25T00:16:51.264285+00:00",
     "outcome": "success",
-    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45314330825",
-    "lastSuccessAt": "2026-11-24T02:43:55.796404+00:00"
+    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45516682388",
+    "lastSuccessAt": "2026-11-25T00:16:51.264285+00:00"
   },
   "lightview": {
-    "lastAttemptAt": "2026-11-24T02:43:55.796404+00:00",
+    "lastAttemptAt": "2026-11-25T00:16:51.264285+00:00",
     "outcome": "failure",
-    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45314330825",
+    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45516682388",
     "lastSuccessAt": "2026-11-19T22:51:30.740816+00:00"
   },
   "sierra": {
-    "lastAttemptAt": "2026-11-24T02:43:55.796404+00:00",
+    "lastAttemptAt": "2026-11-25T00:16:51.264285+00:00",
     "outcome": "success",
-    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45314330825",
-    "lastSuccessAt": "2026-11-24T02:43:55.796404+00:00"
+    "runUrl": "https://github.com/herman925/wangfuk-court/actions/runs/45516682388",
+    "lastSuccessAt": "2026-11-25T00:16:51.264285+00:00"
   }
 }
