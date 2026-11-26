@@ -3,23 +3,86 @@
     {
       "estate": "啟陽苑",
       "url": "https://lightview.app/kai-yeung-court",
-      "htmlSha256": "c68c607379a50eab81b15940c937dcb9cfc9d2517193bae2390ac46e841f541b",
-      "matched": 746,
-      "specialCount": 750
+      "htmlSha256": "89a5fdbe71e903d06d41a88a2c1bfc3a5b6880d3976b7c1288aeff0eb0f38336",
+      "specialCount": 750,
+      "matched": 22,
+      "historical": 724,
+      "unmatched": 4,
+      "open": {
+        "A": [
+          "20"
+        ],
+        "B": [
+          "20"
+        ]
+      },
+      "openFlats": {}
     },
     {
       "estate": "裕豐苑",
       "url": "https://lightview.app/yu-fung-court",
-      "htmlSha256": "378ab66f7e64cb387ed6f0ae8a435787cd388f6e7753c8917459f83b728edf60",
-      "matched": 106,
-      "specialCount": 140
+      "htmlSha256": "f9f5604bffc765d1d0576a444f6bf42bd7f34aaa1da9634b4d133a0c75daa1ca",
+      "specialCount": 140,
+      "matched": 2,
+      "historical": 104,
+      "unmatched": 34,
+      "open": {
+        "A": [
+          "9"
+        ],
+        "B": [
+          "20"
+        ],
+        "C": [
+          "16"
+        ],
+        "D": [
+          "16"
+        ]
+      },
+      "openFlats": {}
     },
     {
       "estate": "灝然",
       "url": "https://lightview.app/hemma-sapphire",
-      "htmlSha256": "3eacb46b621d02e2c298b794a6ee733948d338512ed53ac7f44bef4ef9f615d7",
-      "matched": 559,
-      "specialCount": 596
+      "htmlSha256": "68d9cc2d779839175af637498912bce43c55642d68c4ea27bd8da340f76ec830",
+      "specialCount": 596,
+      "matched": 43,
+      "historical": 516,
+      "unmatched": 37,
+      "open": {
+        "T1A": [
+          "10"
+        ],
+        "T1B": [
+          "10"
+        ],
+        "T2A": [
+          "9"
+        ],
+        "T2B": [
+          "9"
+        ],
+        "T3A": [
+          "8"
+        ],
+        "T3B": [
+          "8"
+        ],
+        "T4A": [
+          "9"
+        ],
+        "T4B": [
+          "9"
+        ],
+        "T5A": [
+          "12"
+        ],
+        "T5B": [
+          "12"
+        ]
+      },
+      "openFlats": {}
     }
   ],
   "unmatched": [

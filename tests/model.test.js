@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { selectFlats, toCsv } from '../docs/model.js';
+import { wishlistText } from '../docs/wishlist.js';
 
 const snapshot = JSON.parse(readFileSync(new URL('../docs/data/snapshot.json', import.meta.url), 'utf8'));
 test('snapshot contains unique, valid inventory keys and estate totals', () => {
@@ -59,4 +60,16 @@ test('simulation filters exclude missing data, preserve zero, and sort missing l
   const zero = { ...choice, lightview: { ...choice.lightview, sun: { ...choice.lightview.sun, winter: { hours: 0 } } } };
   assert.equal(toCsv([zero]).split('\r\n')[1].split(',')[14], '"0"');
   assert.equal(selectFlats(merged).length, 4443);
+});
+
+test('CSV and shared wishlists identify the snapshot used for each simulation', () => {
+  const flat = snapshot.flats[0];
+  const value = { living: { facingZh: '東' }, sun: { summer: { hours: 1 }, equinox: { hours: 2 }, winter: { hours: 0 } },
+    view: { skyPct: 10, waterPct: 0 }, dataDate: { cityModel: '2026-10-26' }, sourceUrl: 'https://lightview.app/example?t=A&f=3&u=1' };
+  for (const [coverage, label, day] of [['public', 'Lightview 公開模擬', '2026-11-26'], ['historical', 'Lightview 歷史快照（現時公開範圍外）', '2026-11-13']]) {
+    const row = { ...flat, lightview: { ...value, coverage, capturedAt: day + 'T00:00:00Z' } };
+    for (const text of [toCsv([row]), wishlistText([row])]) {
+      assert.ok(text.includes(label) && text.includes(day) && text.includes(value.sourceUrl));
+    }
+  }
 });

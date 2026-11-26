@@ -1,4 +1,4 @@
-import { STATUS_LABELS } from './model.js?v=20261113-wishlist';
+import { STATUS_LABELS, lightviewLabel } from './model.js?v=20261126-lightview';
 
 export const WISHLIST_KEY = 'wangfuk-court:wishlist:v1';
 const flatLabel = flat => `${flat.estate}｜${flat.block === '-' ? '不分座' : `${flat.block}座`}｜${flat.floor}樓｜${flat.unit}室`;
@@ -19,7 +19,8 @@ export function wishlistText(flats) {
     `${index + 1}. *【${flatLabel(flat)}】*`,
     `   ${flat.sqft}呎｜價單售價 HK$${money.format(flat.price)}`,
     `   ${flat.status === 'available' ? '🟢' : '🔴'} ${STATUS_LABELS[flat.status]}｜${flat.source === 'official' ? '官方狀態表' : '使用者PDF'} ${flat.asOf}`,
-    ...(flat.lightview ? [`   客廳向${flat.lightview.living.facingZh}｜冬至日照 ${flat.lightview.sun.winter.hours}小時（Lightview模擬）`] : []),
+    ...(flat.lightview ? [`   客廳向${flat.lightview.living.facingZh}｜冬至日照 ${flat.lightview.sun.winter.hours}小時｜${lightviewLabel(flat.lightview)} · ${flat.lightview.capturedAt.slice(0, 10)}
+   ${flat.lightview.sourceUrl}`] : []),
   ].join('\n'));
   return ['*心許之所｜宏福苑選樓清單*', '願與你共看窗前晨光，共議往後日常。', '', ...entries.flatMap(entry => [entry, '']),
     `共 ${flats.length} 伙收藏，只屬心儀選擇，並非預留或官方揀選。`,

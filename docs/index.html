@@ -6,8 +6,8 @@
   <meta name="description" content="宏福苑特設銷售計劃4,443伙供選單位及揀選狀態，按屋苑、售價、面積及樓層篩選。">
   <meta name="theme-color" content="#234b40">
   <title>宏福苑選樓參考</title>
-  <link rel="stylesheet" href="./styles.css?v=20261116-public-refresh">
-  <script type="module" src="./app.js?v=20261116-public-refresh"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261126-lightview">
+  <script type="module" src="./app.js?v=20261126-lightview"></script>
 </head>
 <body>
   <a class="skip" href="#results">跳至單位名單</a>
@@ -32,7 +32,7 @@
         <fieldset><legend>實用面積 <span>平方呎</span></legend><div class="range"><input id="minArea" type="number" min="0" step="1" placeholder="最低" aria-label="最低實用面積（平方呎）"><span>至</span><input id="maxArea" type="number" min="0" step="1" placeholder="最高" aria-label="最高實用面積（平方呎）"></div></fieldset>
         <label for="maxPrice">最高售價 <span>萬港元</span></label><input id="maxPrice" type="number" min="0" step="1" placeholder="例如 350">
         <fieldset><legend>樓層</legend><div class="range"><input id="minFloor" type="number" min="1" step="1" placeholder="最低" aria-label="最低樓層"><span>至</span><input id="maxFloor" type="number" min="1" step="1" placeholder="最高" aria-label="最高樓層"></div></fieldset>
-        <details class="analysis-filters"><summary>日照及景觀篩選</summary><fieldset id="lightview-filters"><legend class="sr-only">Lightview模擬條件</legend><label for="facing">客廳坐向</label><select id="facing"><option value="">全部坐向</option></select><label for="minWinterSun">冬至直射日照最少 <span>小時</span></label><input id="minWinterSun" type="number" min="0" max="24" step="0.5" placeholder="不限"><label for="minSky">開揚天空比例最少 <span>%</span></label><input id="minSky" type="number" min="0" max="100" step="1" placeholder="不限"><label for="minWater">水面景觀比例最少 <span>%</span></label><input id="minWater" type="number" min="0" max="100" step="1" placeholder="不限"><p class="filter-tip">Lightview模擬，非實景。設定條件後，只顯示有可配對分析的單位；缺資料不代表零日照或零景觀。</p></fieldset></details>
+        <details class="analysis-filters"><summary>日照及景觀篩選</summary><fieldset id="lightview-filters"><legend class="sr-only">Lightview模擬條件</legend><label for="facing">客廳坐向</label><select id="facing"><option value="">全部坐向</option></select><label for="minWinterSun">冬至直射日照最少 <span>小時</span></label><input id="minWinterSun" type="number" min="0" max="24" step="0.5" placeholder="不限"><label for="minSky">開揚天空比例最少 <span>%</span></label><input id="minSky" type="number" min="0" max="100" step="1" placeholder="不限"><label for="minWater">水面景觀比例最少 <span>%</span></label><input id="minWater" type="number" min="0" max="100" step="1" placeholder="不限"><p class="filter-tip">Lightview模擬，非實景。篩選及排序包括公開模擬及標明日期的歷史快照；缺資料不代表零日照或零景觀。</p></fieldset></details>
         <p class="filter-tip">可以同時設定多個條件，逐步縮窄選擇。</p>
         </div>
         <div class="drawer-footer"><button id="apply-filters" type="button">顯示篩選結果</button></div>

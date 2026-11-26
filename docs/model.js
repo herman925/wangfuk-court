@@ -1,4 +1,8 @@
 export const STATUS_LABELS = { available: '未揀選', picked: '已揀選' };
+export function lightviewLabel(data) {
+  return data.coverage === 'historical' ? 'Lightview 歷史快照（現時公開範圍外）' : 'Lightview 公開模擬';
+}
+
 const analysisValue = (flat, field) => ({ winterSun: flat.lightview?.sun.winter.hours, sky: flat.lightview?.view.skyPct, water: flat.lightview?.view.waterPct })[field];
 
 export function selectFlats(flats, filters = {}) {
@@ -30,9 +34,10 @@ export function selectFlats(flats, filters = {}) {
 
 export function toCsv(flats) {
   const quote = v => `"${String(v).replaceAll('"', '""')}"`;
-  const rows = [['屋苑', '座', '樓層', '單位', '實用面積（平方呎）', '實用面積（平方米）', '價單售價（港元）', '揀選狀態', '來源狀態', '資料來源', '資料日期', '坐向（Lightview）', '夏至日照小時（模擬）', '春秋分日照小時（模擬）', '冬至日照小時（模擬）', '天空比例%（模擬）', '水面比例%（模擬）', 'Lightview來源', '城市模型日期'],
+  const rows = [['屋苑', '座', '樓層', '單位', '實用面積（平方呎）', '實用面積（平方米）', '價單售價（港元）', '揀選狀態', '來源狀態', '資料來源', '資料日期', '坐向（Lightview）', '夏至日照小時（模擬）', '春秋分日照小時（模擬）', '冬至日照小時（模擬）', '天空比例%（模擬）', '水面比例%（模擬）', 'Lightview來源', '城市模型日期', 'Lightview涵蓋狀態', 'Lightview快照日期（UTC）'],
     ...flats.map(f => [f.estate, f.block, f.floor, f.unit, f.sqft, f.sqm, f.price, STATUS_LABELS[f.status], f.sourceStatus, f.source === 'official' ? '官方狀態表' : '使用者提供PDF', f.asOf,
       f.lightview?.living.facingZh ?? '', f.lightview?.sun.summer.hours ?? '', f.lightview?.sun.equinox.hours ?? '', f.lightview?.sun.winter.hours ?? '',
-      f.lightview?.view.skyPct ?? '', f.lightview?.view.waterPct ?? '', f.lightview?.sourceUrl ?? '', f.lightview?.dataDate.cityModel ?? ''])];
+      f.lightview?.view.skyPct ?? '', f.lightview?.view.waterPct ?? '', f.lightview?.sourceUrl ?? '', f.lightview?.dataDate.cityModel ?? '',
+      f.lightview ? lightviewLabel(f.lightview) : '', f.lightview?.capturedAt?.slice(0, 10) ?? ''])];
   return '\uFEFF' + rows.map(row => row.map(quote).join(',')).join('\r\n');
 }

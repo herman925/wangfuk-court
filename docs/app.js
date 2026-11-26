@@ -1,5 +1,5 @@
-import { selectFlats, toCsv, STATUS_LABELS } from './model.js?v=20261113-drawers';
-import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261113-drawers';
+import { selectFlats, toCsv, STATUS_LABELS, lightviewLabel } from './model.js?v=20261126-lightview';
+import { WISHLIST_KEY, decodeWishlist, wishlistText, parseWishlist } from './wishlist.js?v=20261126-lightview';
 import { mountRefresh } from './refresh.js?v=20261116-public-refresh';
 
 const $ = id => document.getElementById(id);
@@ -132,7 +132,7 @@ function analysisCell(row) {
   if (!data) return '<span class="analysis-missing">未有可配對分析</span>';
   const seasons = [['summer', '夏至'], ['equinox', '春秋分'], ['winter', '冬至']];
   const confidence = { medium: '中等', high: '高', low: '低' };
-  return `<details class="lightview-info"><summary>${escape(data.living.facingZh)} · 冬日 ${data.sun.winter.hours} 小時<small>Lightview 模擬 · 查看詳情</small></summary><div class="lightview-details"><p class="analysis-caption">晴天直射陽光（小時）</p><dl>${seasons.map(([key, name]) => `<div><dt>${name}</dt><dd>${data.sun[key].hours}<small>早 ${data.sun[key].morningHours} ／ 午後 ${data.sun[key].afternoonHours}</small></dd></div>`).join('')}</dl><p class="analysis-caption">窗外120°景觀比例（模擬）</p><dl class="view-shares">${[['skyPct', '天空'], ['waterPct', '水面'], ['greeneryPct', '綠化'], ['buildingPct', '樓景'], ['otherPct', '其他']].map(([key, name]) => `<div><dt>${name}</dt><dd>${data.view[key]}%</dd></div>`).join('')}</dl><p class="analysis-caption">城市模型 ${escape(data.dataDate.cityModel || '未註明日期')} · 信心程度：日照 ${escape(confidence[data.sunConfidence] || data.sunConfidence)}／景觀 ${escape(confidence[data.viewConfidence] || data.viewConfidence)}</p><a href="${escape(data.sourceUrl)}&v=1" target="_blank" rel="noopener noreferrer">在 Lightview 看全景／3D ↗</a><p class="analysis-caption">來源：光景 Lightview · JOL Studio Limited。模擬僅供參考，未計雲及煙霞，並非實景或官方售樓資料。</p></div></details>`;
+  return `<details class="lightview-info"><summary>${escape(data.living.facingZh)} · 冬日 ${data.sun.winter.hours} 小時<small>${escape(lightviewLabel(data))} · 快照 ${escape(data.capturedAt.slice(0, 10))}</small></summary><div class="lightview-details"><p class="analysis-caption">晴天直射陽光（小時）</p><dl>${seasons.map(([key, name]) => `<div><dt>${name}</dt><dd>${data.sun[key].hours}<small>早 ${data.sun[key].morningHours} ／ 午後 ${data.sun[key].afternoonHours}</small></dd></div>`).join('')}</dl><p class="analysis-caption">窗外120°景觀比例（模擬）</p><dl class="view-shares">${[['skyPct', '天空'], ['waterPct', '水面'], ['greeneryPct', '綠化'], ['buildingPct', '樓景'], ['otherPct', '其他']].map(([key, name]) => `<div><dt>${name}</dt><dd>${data.view[key]}%</dd></div>`).join('')}</dl><p class="analysis-caption">城市模型 ${escape(data.dataDate.cityModel || '未註明日期')} · 信心程度：日照 ${escape(confidence[data.sunConfidence] || data.sunConfidence)}／景觀 ${escape(confidence[data.viewConfidence] || data.viewConfidence)}</p><a href="${escape(data.sourceUrl)}" target="_blank" rel="noopener noreferrer">${data.coverage === 'historical' ? 'Lightview 原單位連結（現時公開範圍外）' : '在 Lightview 查看單位'} ↗</a><p class="analysis-caption">來源：光景 Lightview · JOL Studio Limited。模擬僅供參考，未計雲及煙霞，並非實景或官方售樓資料。</p></div></details>`;
 }
 
 function render() {
@@ -146,7 +146,7 @@ function render() {
   $('mobile-count').textContent = integer.format(filtered.length);
   $('apply-filters').textContent = `顯示 ${integer.format(filtered.length)} 伙結果`;
   $('status-counts').innerHTML = Object.entries(STATUS_LABELS).map(([state, label]) => `<span class="status ${state}">${label} ${integer.format(filtered.filter(row => row.status === state).length)} 伙</span>`).join('');
-  $('analysis-coverage').textContent = `目前篩選結果中，${integer.format(filtered.filter(row => row.lightview).length)} 伙有可配對的 Lightview 日照及景觀模擬；缺少或面積不符的資料不套用。`;
+  $('analysis-coverage').textContent = `目前篩選結果中，${integer.format(filtered.filter(row => row.lightview?.coverage === 'public').length)} 伙有公開模擬，${integer.format(filtered.filter(row => row.lightview?.coverage === 'historical').length)} 伙採用歷史快照（現時公開範圍外）。`;
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   page = Math.min(page, pages);
   const start = (page - 1) * pageSize;
@@ -175,6 +175,10 @@ async function showRefreshStatus() {
     const time = date => date ? new Date(date).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', hour12: false }) : '未有成功記錄';
     $('refresh-note').textContent = `每日香港時間00:00自動檢查。${Object.entries(labels).map(([key, label]) => {
       const result = status[key];
+      const coverage = result?.coverage;
+      if (key === 'lightview' && result?.outcome === 'success' && coverage) {
+        return `Lightview：已檢查 ${time(result.lastSuccessAt)}（公開 ${coverage.public} 伙，歷史快照 ${coverage.historical} 伙）`;
+      }
       return result ? `${label}：${result.outcome === 'success' ? `已檢查 ${time(result.lastSuccessAt)}` : `本次失敗，保留上次資料（最後成功 ${time(result.lastSuccessAt)}）`}` : `${label}：未有記錄`;
     }).join('；')}。來源未發布新資料時，表內資料日期不會改動；樂嶺軒公告只作監察。`;
   } catch (error) {
@@ -192,7 +196,7 @@ async function init() {
       const extraResponse = await fetch('./data/lightview.json', { cache: 'no-cache' });
       if (!extraResponse.ok) throw new Error('Lightview data unavailable');
       const extra = await extraResponse.json();
-      if (extra.schemaVersion !== 1 || !extra.flats) throw new Error('Invalid Lightview data');
+      if (extra.schemaVersion !== 2 || !extra.flats) throw new Error('Invalid Lightview data');
       snapshot.flats = snapshot.flats.map(flat => ({ ...flat, lightview: extra.flats[flat.id] || null }));
       const facings = new Map(snapshot.flats.filter(flat => flat.lightview).map(flat => [flat.lightview.living.facing, flat.lightview.living.facingZh]));
       [...facings].sort().forEach(([value, label]) => $('facing').add(new Option(label, value)));

@@ -95,11 +95,18 @@ jobs:
               assert outcome in ('success', 'failure'), outcome
               report[name] = dict(lastAttemptAt=now, outcome=outcome, runUrl=os.environ['RUN_URL'],
                                   lastSuccessAt=now if outcome == 'success' else previous.get(name, {}).get('lastSuccessAt'))
+          if report['lightview']['outcome'] == 'success':
+              projects = json.loads(Path('docs/data/lightview.json').read_text())['projects'].values()
+              report['lightview']['coverage'] = dict(public=sum(p['matched'] for p in projects),
+                                                     historical=sum(p['historical'] for p in projects))
           path.write_text(json.dumps(report, indent=2) + '\n')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
               summary.write('| Source | Result |\n|---|---|\n')
               for name, result in report.items():
                   summary.write(f'| {name} | {result["outcome"]} |\n')
+              if 'coverage' in report['lightview']:
+                  coverage = report['lightview']['coverage']
+                  summary.write(f'\nLightview: {coverage["public"]} public matches, {coverage["historical"]} historical snapshots outside current public coverage.\n')
               summary.write('\nSource dates remain unchanged when publishers have not released new data. Sierra is an audit only; its user-PDF selection baseline is retained.\n')
           PY
       - name: Commit validated data
